@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>meteorite-landings</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/uikit-3.6.20.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="assets/css/main.css">-->
+</head>
+<body>
+    <header class="uk-navbar-container uk-margin-medium-bottom">
+        <div class="uk-container-expand">
+            <nav class="uk-container" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo" href="https://imatheussm.github.io/meteorite-landings/index.html">
+                        meteorite-landings
+                    </a>
+                </div>
+                <div class="uk-navbar-right">
+                    <button class="uk-button uk-button-secondary uk-margin-auto-vertical"
+                            uk-tooltip="Gabriela Maximino & Igor Moreira.">
+                        Authors
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="uk-container-expand">
+        <div class="uk-container">
+            <ul class="uk-flex-center" uk-tab="animation: uk-animation-fade; connect: #tabContents">
+                <li>
+                    <a id="dashboardTab">
+                        <span uk-icon="image"></span>
+                        <br>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a id="reasoningTab">
+                        <span uk-icon="info"></span>
+                        <br>
+                        Reasoning
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="uk-switcher uk-margin" id="tabContents">
+            <li class="uk-container-expand">
+                <div class="uk-grid uk-child-width-1-2" uk-grid>
+                    <div>A plot here.</div>
+                    <div>Another plot here.</div>
+                </div>
+            </li>
+            <li class="uk-container">
+                Some information here.
+            </li>
+        </ul>
+    </main>
+    <footer>
+        <script src="assets/js/uikit-3.6.20.min.js"></script>
+        <script src="assets/js/uikit-icons-3.6.20.min.js"></script>
+<!--        <script type="module" src="assets/js/viz/main.js"></script>-->
+    </footer>
+</body>
+</html>
