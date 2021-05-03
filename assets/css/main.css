@@ -75,3 +75,18 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
 .uk-light .uk-switch-slider:not(.uk-switch-on-off) {
     background-color: rgba(255,255,255,0.22);
 }
+
+.map {
+    stroke: #f8f8f8;
+    stroke-width: 1px;
+}
+
+.map-muted {
+    color: #666;
+    fill: #666;
+}
+
+.map-red {
+    color: indianred;
+    fill: indianred;
+}

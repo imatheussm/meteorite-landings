@@ -1,7 +1,7 @@
 import pandas as pd
 import requests as rq
 
-data_frame = pd.read_csv("meteorite-landings.csv", index_col="id").sort_index()
+data_frame = pd.read_csv("/assets/csv/meteorite-landings.csv", index_col="id").sort_index()
 access_token = "MAPBOX_ACCESS_TOKEN_HERE"
 
 for index, row in data_frame.iterrows():

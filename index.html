@@ -57,7 +57,7 @@
                                     </small>
                                     <label class="uk-switch uk-margin-small-left uk-margin-auto-vertical">
                                         <input type="checkbox" id="mapToggle"
-                                               uk-toggle="target: .toggle-map; cls: uk-hidden;">
+                                               uk-toggle="target: .map-toggle; cls: uk-hidden;">
                                         <div class="uk-switch-slider uk-switch-small uk-display-block"></div>
                                     </label>
                                     <small class="uk-margin-auto-vertical uk-margin-small-left uk-margin-auto-right">
@@ -73,11 +73,11 @@
                             </div>
                         </div>
                     </div>
-                    <svg class="uk-margin-remove toggle-map" viewBox="0 0 961 730"
-                         preserveAspectRatio="xMidYMid meet" fill="red" id="mapOne"></svg>
-                    <svg class="uk-margin-remove toggle-map uk-hidden" viewBox="0 0 961 730"
+                    <svg class="uk-margin-remove map map-muted map-toggle" viewBox="0 0 961 730"
+                         preserveAspectRatio="xMidYMid meet" id="mapOne"></svg>
+                    <svg class="uk-margin-remove map map-red map-toggle uk-hidden" viewBox="0 0 961 730"
                          preserveAspectRatio="xMidYMid meet" id="mapTwo"></svg>
-                    <svg class="uk-margin-remove" viewBox="0 0 961 730"
+                    <svg class="uk-margin-remove map map-muted" viewBox="0 0 961 730"
                          preserveAspectRatio="xMidYMid meet" id="mapThree"></svg>
                 </div>
             </li>
@@ -90,7 +90,7 @@
         <script src="assets/js/jquery-3.6.0.min.js"></script>
         <script src="assets/js/uikit-3.6.20.min.js"></script>
         <script src="assets/js/uikit-icons-3.6.20.min.js"></script>
-        <script src="assets/js/d3.min.js"></script>
+        <script src="assets/js/d3-6.7.0.min.js"></script>
         <script type="module" src="assets/js/viz/main.js"></script>
     </footer>
 </body>

@@ -1,23 +1,18 @@
-function draw(geoData, selector) {
-    let projection = d3.geoMercator(),
-        path = d3.geoPath().projection(projection)
+import * as draw from "./draw.js"
+import * as parse from "./parse.js"
 
+function initialize(data) {
+    let [geographicalData, meteoriteLandings] = data
 
-    d3.select(selector)
-        .append('g')
-        .attr('class', 'map')
-        .append("path")
-        .attr("d", path(geoData))
+    draw.map(geographicalData, ".map")
+    // draw.choropleth(geographicalData, meteoriteLandings, "#mapOne")
 }
 
 $(function() {
-    const IS_COMPRESSED = true;
+    const IS_COMPRESSED = true
 
-    d3.json(`/assets/geojson/countries${IS_COMPRESSED === true ? "_compressed" : ""}.geojson`)
-        .then(function(geoData) {
-            draw(geoData, "#mapOne")
-            draw(geoData, "#mapTwo")
-            draw(geoData, "#mapThree")
-        })
-        .catch(err => { console.log(err) })
+    Promise.all([
+        d3.json(`/assets/geojson/countries${IS_COMPRESSED === true ? "_compressed" : ""}.geojson`),
+        d3.dsv(";", "/assets/csv/meteorite_landings.csv", parse.meteoriteLandings)
+    ]).then(initialize)
 })
