@@ -54,3 +54,18 @@ export function tooltip(selector) {
         .style("position", "absolute")
         .style("text-align", "center")
 }
+
+export function ramp(color, n = 256) {
+    let canvas = document.createElement("canvas"),
+        context = canvas.getContext("2d")
+
+    canvas.width = n
+    canvas.height = 1
+
+    for (let i = 0; i < n; ++i) {
+        context.fillStyle = color(i / (n - 1))
+        context.fillRect(i, 0, 1, 1)
+    }
+
+    return canvas
+}

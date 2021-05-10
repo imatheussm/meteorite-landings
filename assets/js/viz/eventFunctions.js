@@ -34,16 +34,13 @@ export function hideTooltip(tooltip) {
     tooltip.style("display", "none")
 }
 
-export function getChoroplethColor(datum, values, maxValue) {
+export function getChoroplethColor(datum, values, maxValue, palette) {
     let value
 
 
     if (datum.properties.name !== undefined && values.get(datum.properties.name) !== undefined) {
-        value = values.get(datum.properties.name)
-
-        if (value >= maxValue) value = 1
-        else value /= maxValue
+        value = Math.min(values.get(datum.properties.name), maxValue)
     } else value = 0
 
-    return d3.interpolateReds(value)
+    return palette(value)
 }
