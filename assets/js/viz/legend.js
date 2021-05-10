@@ -152,9 +152,9 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
 export function choropleth(elements, title, palette) {
     const n = Math.min(palette.domain().length, palette.range().length)
     let scaleLegendGroup = elements.append("g"),
-        paddingTop = 590,
+        paddingTop = 640,
         paddingLeft = 5,
-        scaleWidth = 270,
+        scaleWidth = 290,
         scaleHeight = 20,
         x = palette.copy().rangeRound(d3.quantize(d3.interpolate(paddingLeft, scaleWidth), n)),
         scaleGroup = elements.append("image"),
@@ -172,7 +172,7 @@ export function choropleth(elements, title, palette) {
         .style("stroke", "none")
         .style("font-weight", "bold")
         .style("cursor", "default")
-        .attr("transform", `translate(${-0.5 + paddingLeft}, ${380})`)
+        .attr("transform", `translate(${-0.5 + paddingLeft}, ${430})`)
 
     scaleGroup.attr("x", -0.5 + paddingLeft)
         .attr("y", -192.1917724609375 + paddingTop)
@@ -182,7 +182,7 @@ export function choropleth(elements, title, palette) {
         .attr("xlink:href", get.ramp(palette.copy().domain(d3.quantize(d3.interpolate(0, 1), n))).toDataURL())
 
     ticksGroup
-        .attr("transform", `translate(${-0.5 + paddingLeft}, ${-192.1917724609375 + paddingTop + scaleHeight})`)
+        .attr("transform", `translate(${-0.5 + paddingLeft - 4}, ${-192.1917724609375 + paddingTop + scaleHeight})`)
         .call(d3.axisBottom(x)
             .ticks(ticks, palette.tickFormat)
             // .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
