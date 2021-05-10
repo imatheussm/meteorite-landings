@@ -31,7 +31,7 @@ export function plot_circles(data, svgMapa, projection) {
             .on("mouseover", function(event, d) {		
                 div.style("opacity", .9);		
                 div	.html("Massa:" + d.mass)	
-                    .style("left", (event.pageX) + "px")		
+                    .style("left", (event.target) + "px")
                     .style("top", (event.pageY - 28) + "px");	
                 })					
             .on("mouseout", function() {		

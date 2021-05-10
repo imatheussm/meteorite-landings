@@ -1,7 +1,7 @@
 import pandas as pd
 import requests as rq
 
-data_frame = pd.read_csv("/assets/csv/meteorite-landings.csv", index_col="id").sort_index()
+data_frame = pd.read_csv("./assets/csv/meteorite_landings.csv", index_col="id", sep=";").sort_index()
 access_token = "MAPBOX_ACCESS_TOKEN_HERE"
 
 for index, row in data_frame.iterrows():
@@ -33,4 +33,4 @@ for index, row in data_frame.iterrows():
         if "country" in feature["place_type"]:
             data_frame.loc[index, "country"] = feature["text"]
 
-data_frame.to_csv("new-meteorite-landings.csv")
+data_frame.to_csv("./assets/csv/meteorite_landings.csv", sep=";")

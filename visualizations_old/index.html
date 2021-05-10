@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>First D3 Example</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v6.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        
+
+        <style>
+            body {
+                background-color: #666;
+            }
+            .axis path {
+            display: none;
+            }
+
+            .axis line {
+            stroke-opacity: 0.3;
+            shape-rendering: crispEdges;
+            }
+
+            .view {
+            fill: url(#gradient);
+            stroke: #000;
+            }
+
+            button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            }
+
+            div.tooltip {	
+                position: absolute;			
+                text-align: center;			
+                width: 60px;					
+                height: 28px;					
+                padding: 2px;				
+                font: 12px sans-serif;		
+                background: lightsteelblue;	
+                border: 0px;		
+                border-radius: 8px;			
+                pointer-events: none;			
+            }
+
+            .legendGroup {
+                cursor: pointer;
+            }
+
+
+
+</style>
+        </style>
+    </head>
+
+    <body>
+        <script type="module" src="index.js"></script>
+    </body>
+
+</html>
+

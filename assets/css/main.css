@@ -79,10 +79,11 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
 .map {
     stroke: #f8f8f8;
     stroke-width: 1px;
+    stroke-linejoin: round;
 }
 
 .map-muted {
-    color: #666;
+    color: #fff;
     fill: #666;
 }
 
