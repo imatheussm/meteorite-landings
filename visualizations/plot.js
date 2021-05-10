@@ -39,10 +39,7 @@ export function plot_circles(data, svgMapa, projection) {
             });
             
     // Tooltip
-    var div = d3.select("body")
-        .append("div")	
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
+    
 
     var keys = [{name: "Fell"}, {name: "Found"}]
 

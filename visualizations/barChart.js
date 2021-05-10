@@ -94,7 +94,8 @@ export function barChart(data) {
                 var parseTime = d3.timeParse("%Y")
             
                 for(let item of Object.entries(yearGroup)) {
-                    occurrencesByYear.push({"year": parseTime(item[0]), "value" : +item[1].length})
+                    if (item[0] >= 860 && item[0] <= 2013)
+                        occurrencesByYear.push({"year": parseTime(item[0]), "value" : +item[1].length})
                 }
                 
                 console.log("Infos:", occurrencesByYear)

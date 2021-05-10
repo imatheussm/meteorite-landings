@@ -5,6 +5,7 @@ import { parse } from "./parse.js"
 import { plot_circles } from './plot.js';
 import { barChart2 } from './barChart2.js'
 import { lineChart2 } from './lineChart2.js'
+import { scrollLine } from './scrollingLineChart.js';
 
 var width = 1400,
     height = 600
@@ -29,6 +30,7 @@ function initialize(data) {
     //lineChart(meteorites)
     //barChart2(meteorites)
     //lineChart2(meteorites)
+    //scrollLine(meteorites)
 
 }
 
