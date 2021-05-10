@@ -48,6 +48,23 @@
                 cursor: pointer;
             }
 
+            div#halfpage{
+        height: 500px;
+        width: 800px;
+        border:2px solid #000;
+        overflow-y: auto;
+        }
+        svg#sky {
+          height: 1000px;
+          width: 1100px;
+          border:1px dotted #ccc;
+          background-color: #ccc;
+       }
+
+       /* .graph {
+           position: absolute;
+           margin-left: 10px;
+       } */
 
 
 </style>
@@ -56,6 +73,10 @@
 
     <body>
         <script type="module" src="index.js"></script>
+        <div class="graph" style="width: 820px; height: 400px; overflow-y: scroll"></div>
+        <div class="graph2" style="width: 820px; height: 400px;"></div>
+
+        </div>
     </body>
 
 </html>
