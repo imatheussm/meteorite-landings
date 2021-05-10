@@ -58,116 +58,79 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
         tooltip = constants.TOOLTIP
 
 
-    // elements.selectAll("circle")
-    //     .data(meteoriteLandings)
-    //     .enter()
-    //     .append("circle")
-    //     .attr("cx", datum => datum.longitude)
-    //     .attr("cy", datum => datum.latitude)
-    //     .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
-    //     .on("mouseover", function(event, datum) {eventFunctions.showCircleTooltip(event, datum, tooltip, radiusScale)})
-    //     .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
-    //     .style("fill", datum => colorPalette(datum.fall))
-    //     .style("opacity", 0.75)
+    elements.selectAll("circle")
+        .data(meteoriteLandings)
+        .enter()
+        .append("circle")
+        .attr("class", "data-circle")
+        .attr("cx", datum => datum.longitude)
+        .attr("cy", datum => datum.latitude)
+        .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
+        .on("mouseover", function(event, datum) {eventFunctions.showCircleTooltip(event, datum, tooltip, radiusScale)})
+        .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
+        .style("fill", datum => colorPalette(datum.fall))
+        .style("opacity", 0.75)
 
     circlesLegend(meteoriteLandings, elements, uniqueCategories, colorPalette, radiusScale)
-    // circlesLegendOld(selector, radiusScale)
 }
 
 function circlesLegend(dataSet, elements, uniqueCategories, colorPalette, radiusScale) {
-    let legendGroup = elements.append("g")
+    let categoryLegendGroup = elements.append("g")
 
 
-    legendGroup.selectAll()
+    categoryLegendGroup.append("text")
+        .text("Discovered")
+        .style("font-size", "20px")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .style("font-weight", "bold")
+        .style("cursor", "default")
+        .attr("transform", `translate(${-0.5 + 5}, ${250})`)
+
+    categoryLegendGroup.selectAll()
         .data(uniqueCategories)
         .join("g")
         .append("circle")
-        .attr("r", 10)
-        .attr("transform", (datum, index) => `translate(40, ${30 + index * 30})`)
+        .attr("class", "legend-circle")
+        .attr("id", datum => `${datum.name.toLowerCase()}-circle`)
+        .attr("r", 15)
+        .attr("transform", (datum, index) => `translate(${-0.5 + 20}, ${280 + index * 40})`)
         .style("fill", datum => colorPalette(datum.name))
-        .select(function(){ return this.parentNode})
+        .style("cursor", "pointer")
+        .select(function() {return this.parentNode})
         .append("text")
         .text(d => d.name)
-        .attr("x", 60)
-        .attr("y", (datum, index) => 37 + index * 30)
-        .select(function(){return this.parentNode})
-        .on("click", function(e, d) {
-            console.log(d.name)
-            console.log("clicked!")
-            let name = d.name
-            elements.selectAll("circle")
-                .data(dataSet)
+        .attr("x", -0.5 + 40)
+        .attr("y", (datum, index) => -192.1917724609375 + 480 + index * 40)
+        .style("font-size", "20px")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .style("cursor", "pointer")
+        .select(function() {return this.parentNode})
+        .on("click", function(event, category) {
+            let circles = elements.selectAll("circle.data-circle"),
+                legendCircles = elements.selectAll("circle.legend-circle")
+
+
+            circles.data(dataSet)
+                .filter(datum => datum.fall === category.name)
+                .style("fill", function(datum) {
+                    if (d3.select(this).style("fill") === "yellow") return colorPalette(datum.fall)
+                    else return "yellow"
+                })
+
+            legendCircles.filter(datum => datum.name === category.name)
+                .style("fill", function(datum) {
+                    if (d3.select(this).style("fill") === "yellow") {
+                        return colorPalette(datum.name)
+                    }
+                    else return "yellow"
+                })
+
+            circles.data(dataSet)
+                .filter(datum => datum.fall !== category.name)
                 .style("fill", datum => colorPalette(datum.fall))
-                .filter(data => data.fall === name)
-                .style("fill", "yellow")
         })
-
-    // legendGroup.selectAll()
-    //     .data(uniqueCategories)
-    //     .enter()
-    //     .join("g")
-    //     .append("circle")
-    //     .attr("r", 15)
-    //     .style("fill", datum => colorPalette(datum.name))
-    //     .append("text")
-    //     .text(datum => datum.name)
-    //     .attr("x", -0.5 + 100)
-    //     .attr("y", (datum, index) => -192.1917724609375 + 100 + index * 30)
-    //     .style("font-size", "20px")
-    //     .style("fill", "#666")
-    //     .style("stroke", "none")
-}
-
-function circlesLegendOld(selector, radiusScale) {
-    let elements = d3.selectAll(selector)
-
-
-    // Color
-    elements
-        .append("text")
-        .attr("x", -0.5 + 5)
-        .attr("y", -192.1917724609375 + 440)
-        .text("Discovered")
-        .style("font-size", "20px")
-        .style("fill", "#666")
-        .style("stroke", "none")
-        .style("font-weight", "bold")
-        .attr("alignment-baseline", "middle")
-
-    elements
-        .append("circle")
-        .attr("cx", -0.5 + 20)
-        .attr("cy", -192.1917724609375 + 470)
-        .attr("r",  15)
-        .style("fill", "red")
-
-    elements
-        .append("circle")
-        .attr("cx", -0.5 + 20)
-        .attr("cy", -192.1917724609375 + 510)
-        .attr("r", 15)
-        .style("fill", "blue")
-
-
-    elements
-        .append("text")
-        .attr("x", -0.5 + 45)
-        .attr("y", -192.1917724609375 + 472)
-        .text("Fell")
-        .style("font-size", "20px")
-        .style("fill", "#666")
-        .style("stroke", "none")
-        .attr("alignment-baseline", "middle")
-
-    elements
-        .append("text")
-        .attr("x", -0.5 + 45)
-        .attr("y", -192.1917724609375 + 513)
-        .text("Found")
-        .style("font-size", "20px")
-        .style("fill", "#666")
-        .style("stroke", "none")
-        .attr("alignment-baseline", "middle")
 
     // Size
     elements
@@ -179,6 +142,7 @@ function circlesLegendOld(selector, radiusScale) {
         .style("fill", "#666")
         .style("stroke", "none")
         .style("font-weight", "bold")
+        .style("cursor", "default")
         .attr("alignment-baseline", "middle")
 
     elements
@@ -217,35 +181,39 @@ function circlesLegendOld(selector, radiusScale) {
         .style("font-size", "20px")
         .style("fill", "#666")
         .style("stroke", "none")
+        .style("cursor", "default")
         .attr("alignment-baseline", "middle")
 
     elements
         .append("text")
         .attr("x", -0.5 + 45)
         .attr("y", -192.1917724609375 + 642)
-        .text("4000000")
+        .text("4,000,000")
         .style("font-size", "20px")
         .style("fill", "#666")
         .style("stroke", "none")
+        .style("cursor", "default")
         .attr("alignment-baseline", "middle")
 
     elements
         .append("text")
         .attr("x", -0.5 + 45)
         .attr("y", -192.1917724609375 + 682)
-        .text("8000000")
+        .text("8,000,000")
         .style("font-size", "20px")
         .style("fill", "#666")
         .style("stroke", "none")
+        .style("cursor", "default")
         .attr("alignment-baseline", "middle")
 
     elements
         .append("text")
         .attr("x", -0.5 + 45)
         .attr("y", -192.1917724609375 + 724)
-        .text("16000000+")
+        .text("16,000,000+")
         .style("font-size", "20px")
         .style("fill", "#666")
         .style("stroke", "none")
+        .style("cursor", "default")
         .attr("alignment-baseline", "middle")
 }
