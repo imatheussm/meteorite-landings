@@ -148,8 +148,8 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
         .attr("stroke-width", 3)
         .attr("d", line)
 
-    // d3.select("#lineChartParentDiv")
-    //     .style("width", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).width)}px`)
+    d3.select("#lineChartParentDiv")
+        .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) * .75}px`)
 
     d3.select("#lineChartDiv")
         .style("width", `${3400}px`)
