@@ -1,3 +1,6 @@
+import * as constants from "./constants.js"
+import * as variables from "./variables.js"
+
 export function counts(dataSet, column, sortKey = false) {
     let counts = new Map(),
         columnValue, currentCount,
@@ -19,8 +22,9 @@ export function counts(dataSet, column, sortKey = false) {
 }
 
 
-export function meanValues(dataSet, counts, groupBy, column) {
+export function meanValues(dataSet, groupBy, column) {
     let meanValues = new Map(),
+        occurrences = counts(dataSet, groupBy),
         columnValue, currentMeanValue
 
 
@@ -32,7 +36,7 @@ export function meanValues(dataSet, counts, groupBy, column) {
     })
 
     meanValues.forEach(function (value, key) {
-        meanValues.set(key, (value / counts.get(key)) || 0)
+        meanValues.set(key, (value / occurrences.get(key)) || 0)
     })
 
     return meanValues
@@ -83,4 +87,19 @@ export function ramp(color, n = 256) {
     }
 
     return canvas
+}
+
+
+export function filteredDataSet(filterClass = true) {
+    let filteredMeteoriteLandings = constants.meteoriteLandings
+
+    if (filterClass === true)
+        filteredMeteoriteLandings = filteredMeteoriteLandings.filter(function(datum) {
+            const selectedClasses = variables.selectedClasses
+
+
+            return selectedClasses.length > 0 ? selectedClasses.includes(datum.class) : true
+        })
+
+    return filteredMeteoriteLandings
 }
