@@ -150,12 +150,12 @@ export function barChart(selector) {
         // .attr("transform", "translate(1000, 0)")
         .on("mouseover", function(event, datum) {eventFunctions.showBarTooltip(event, datum, tooltip)})
         .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
-        .on("mousedown", function(event, bar) {
+        .on("click", function(event, bar) {
             let className = bar[0]
 
 
             if (variables.selectedClasses.includes(className) === true)
-                variables.selectedClasses.splice(variables.selectedClasses.indexOf(className))
+                variables.selectedClasses.splice(variables.selectedClasses.indexOf(className), 1)
             else variables.selectedClasses.push(className)
 
             main.initializeVisualizations()
