@@ -39,7 +39,10 @@ function initialize(data) {
 
 $(function() {
     Promise.all([
-        d3.json(`/assets/json/countries.json`),
-        d3.dsv(";", "/assets/csv/meteorite_landings.csv", parse.meteoriteLandings)
+        d3.json("https://imatheussm.github.io/meteorite-landings/assets/json/countries.json"),
+        d3.dsv(";", "https://imatheussm.github.io/meteorite-landings/assets/csv/meteorite_landings.csv",
+            parse.meteoriteLandings)
+        // d3.json(`/assets/json/countries.json`),
+        // d3.dsv(";", "/assets/csv/meteorite_landings.csv", parse.meteoriteLandings)
     ]).then(initialize)
 })

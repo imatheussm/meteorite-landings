@@ -53,20 +53,20 @@
                     <div class="uk-width-1-1 uk-margin-small-top uk-margin-medium-bottom uk-align-center">
                         <div class="uk-container">
                             <div class="uk-grid uk-child-width-1-2@s uk-child-width-1-4@m" uk-grid>
-                                <div class="uk-flex uk-align-center uk-margin-auto-vertical">
-                                    <small class="uk-margin-auto-vertical uk-margin-auto-left uk-text-right">
-                                        Occurrence count
-                                    </small>
-                                    <label class="uk-switch uk-margin-small-left uk-margin-auto-vertical">
-                                        <input type="checkbox" id="mapToggle"
-                                               uk-toggle="target: .map-toggle; cls: uk-hidden;">
-                                        <div class="uk-switch-slider uk-switch-small uk-display-block"></div>
-                                    </label>
-                                    <small class="uk-margin-auto-vertical uk-margin-small-left uk-margin-auto-right
-                                                  uk-text-left">
-                                        Average mass
-                                    </small>
-                                </div>
+<!--                                <div class="uk-flex uk-align-center uk-margin-auto-vertical">-->
+<!--                                    <small class="uk-margin-auto-vertical uk-margin-auto-left uk-text-right">-->
+<!--                                        Occurrence count-->
+<!--                                    </small>-->
+<!--                                    <label class="uk-switch uk-margin-small-left uk-margin-auto-vertical">-->
+<!--                                        <input type="checkbox" id="mapToggle"-->
+<!--                                               uk-toggle="target: .map-toggle; cls: uk-hidden;">-->
+<!--                                        <div class="uk-switch-slider uk-switch-small uk-display-block"></div>-->
+<!--                                    </label>-->
+<!--                                    <small class="uk-margin-auto-vertical uk-margin-small-left uk-margin-auto-right-->
+<!--                                                  uk-text-left">-->
+<!--                                        Average mass-->
+<!--                                    </small>-->
+<!--                                </div>-->
                                 <div class="uk-flex uk-align-center uk-margin-auto-vertical">
                                     <small class="uk-margin-auto-vertical uk-margin-auto-left">Mass</small>
                                     <input type="range" value="2" min="0" max="10" step="0.1"
@@ -76,17 +76,17 @@
                             </div>
                         </div>
                     </div>
-                    <svg class="uk-margin-remove map muted map-toggle" preserveAspectRatio="xMidYMid meet"
+                    <svg class="uk-margin-remove-top map muted" preserveAspectRatio="xMidYMid meet"
                          id="mapOne" viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
-                    <svg class="uk-margin-remove map muted map-toggle uk-hidden" preserveAspectRatio="xMidYMid meet"
+                    <svg class="map muted" preserveAspectRatio="xMidYMid meet"
                          id="mapTwo" viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
-                    <svg class="uk-margin-remove map muted" preserveAspectRatio="xMidYMid meet" id="mapThree"
-                         viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
-                    <div class="uk-margin-remove" id="barChartDiv">
+<!--                    <svg class="map muted" preserveAspectRatio="xMidYMid meet" id="mapThree"-->
+<!--                         viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>-->
+                    <div id="barChartDiv">
                         <svg class="chart chart-muted" preserveAspectRatio="xMidYMid meet" id="barChart"
                              viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
                     </div>
-                    <div class="uk-margin-remove" id="lineChartParentDiv">
+                    <div id="lineChartParentDiv">
                         <div class="uk-margin-remove uk-height-1-1" id="lineChartDiv">
                             <svg class="chart chart-muted" preserveAspectRatio="xMidYMid meet" id="lineChart"
                                  viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>

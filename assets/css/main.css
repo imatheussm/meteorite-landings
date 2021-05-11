@@ -93,6 +93,15 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
 
 #lineChartParentDiv {
     overflow-x: scroll;
+    direction: rtl;
+}
+
+#lineChartDiv {
+    direction: rtl;
+}
+
+#lineChart {
+    direction: ltr;
 }
 
 /*#lineChartParentDiv {*/
@@ -105,6 +114,5 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
 /*}*/
 
 /*#lineChartDiv {*/
-/*    !*width: 2766px;*!*/
-/*    width: 1300px;*/
+/*    direction: rtl;*/
 /*}*/
