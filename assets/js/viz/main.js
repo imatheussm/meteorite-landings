@@ -32,7 +32,7 @@ function initialize(data) {
     draw.choropleth(geographicalData, meteoriteLandings, "#mapOne", countryOccurrences, maxCount, true)
     draw.choropleth(geographicalData, meteoriteLandings, "#mapTwo", meanValues, maxMeanValue, false)
     draw.map(geographicalData, "#mapThree")
-    //draw.circles(meteoriteLandings, "#mapThree", uniqueCategories)
+    draw.circles(meteoriteLandings, "#mapThree", uniqueCategories)
     draw.barChart(meteoriteLandings, "#barChart", classOccurrences, yearOccurrences)
     draw.lineChart(meteoriteLandings, "#lineChart", yearOccurrences)
 }

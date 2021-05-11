@@ -8,6 +8,9 @@ import * as legend from "./legend.js"
 export function map(geographicalData, selector) {
     let elements = d3.select(selector)
 
+
+    if (elements.size() === 0) return
+
     elements.append("g")
         .selectAll("path")
         .data(geographicalData)
@@ -15,6 +18,7 @@ export function map(geographicalData, selector) {
         .attr("fill", constants.FILL)
         .attr("d", constants.PATH)
 
+    adjust.boundingBox(elements)
 }
 
 export function choropleth(geographicalData, meteoriteLandings, selector, values, upperBound, isCount) {
@@ -24,6 +28,8 @@ export function choropleth(geographicalData, meteoriteLandings, selector, values
             isCount === true ? d3.interpolateReds : d3.interpolateBlues
         )
 
+
+    if (elements.size() === 0) return
 
     elements.append("g")
         .selectAll("path")
@@ -51,7 +57,6 @@ export function choropleth(geographicalData, meteoriteLandings, selector, values
 }
 
 export function circles(meteoriteLandings, selector, uniqueCategories) {
-    // let massExtent = d3.extent(meteoriteLandings, datum => datum.mass),
     let elements = d3.selectAll(selector),
         radiusScale = d3.scaleLinear()
             .domain([0, 16000000])
@@ -61,6 +66,8 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
             .range(d3.schemeSet1.slice(0, 2).reverse()),
         tooltip = constants.TOOLTIP
 
+
+    if (elements.size() === 0) return
 
     elements.selectAll("circle")
         .data(meteoriteLandings)
@@ -89,6 +96,8 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
             .padding(0.3),
         elements = d3.selectAll(selector)
 
+
+    if (elements.size() === 0) return
 
     elements.selectAll()
         .data(classCounts)
@@ -136,6 +145,8 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
             }),
         newYearCounts = []
 
+
+    if (elements.size() === 0) return
 
     yearCounts.forEach((value, key) => newYearCounts.push({year: timeParser(key), counts: value}))
 
