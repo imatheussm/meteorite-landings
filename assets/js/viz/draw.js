@@ -3,6 +3,7 @@ import * as constants from "./constants.js"
 import * as eventFunctions from "./eventFunctions.js"
 import * as get from "./get.js"
 import * as legend from "./legend.js"
+import * as main from "./main.js"
 import * as variables from "./variables.js"
 
 export function map(selector) {
@@ -96,9 +97,9 @@ export function circles(selector) {
 }
 
 export function barChart(selector) {
-    const METEORITE_LANDINGS = constants.meteoriteLandings
+    const METEORITE_LANDINGS = get.filteredDataSet(false)
     let classCounts = get.counts(METEORITE_LANDINGS, "class"),
-        yearCounts = get.counts(METEORITE_LANDINGS, "year", true),
+        // yearCounts = get.counts(METEORITE_LANDINGS, "year", true),
         elements = d3.selectAll(selector),
         xAxis = d3.scaleLinear()
             .domain([0, d3.max(Array.from(classCounts.values()))])
@@ -111,10 +112,13 @@ export function barChart(selector) {
 
     if (elements.size() === 0) return
 
+    elements.selectAll("*")
+        .remove()
+
     elements.selectAll()
         .data(classCounts)
         .join("rect")
-        .attr("fill", constants.FILL)
+        .attr("fill", datum => variables.selectedClasses.includes(datum[0]) === true ? "indianred" : constants.FILL)
         //.attr("x", function(d) { return x(d.sales) })
         .attr("width", datum => 800 - xAxis(datum[1]))
         .attr("y", datum => yAxis(datum[0]))
@@ -122,23 +126,14 @@ export function barChart(selector) {
         .attr("x", datum => xAxis(datum[1]))
         // .attr("transform", "translate(1000, 0)")
         .on("mousedown", function(event, bar) {
-            let rectangle = d3.select(this),
-                className = bar[0]
+            let className = bar[0]
 
 
-            if (rectangle.style("fill") === "indianred") {
+            if (variables.selectedClasses.includes(className) === true)
                 variables.selectedClasses.splice(variables.selectedClasses.indexOf(className))
+            else variables.selectedClasses.push(className)
 
-                rectangle.style("fill", constants.FILL)
-            } else {
-                variables.selectedClasses.push(className)
-
-                rectangle.style("fill", "indianred")
-            }
-
-            lineChart("#lineChart")
-            choropleth("#mapOne", true)
-            choropleth("#mapTwo", false)
+            main.initializeVisualizations()
         })
 
     d3.select("#barChartDiv")
@@ -151,7 +146,7 @@ export function barChart(selector) {
 export function lineChart(selector) {
     const METEORITE_LANDINGS = get.filteredDataSet()
 
-    let yearCounts = get.counts(METEORITE_LANDINGS, "year", true),
+    let yearCounts = get.counts(METEORITE_LANDINGS, "year", true, true),
         elements = d3.select(selector),
         timeParser = d3.timeParse("%Y"),
         xAxis = d3.scaleTime()
@@ -169,7 +164,8 @@ export function lineChart(selector) {
         line = d3.line()
             .x(datum => xAxis(datum.year))
             .y(datum => yAxis(datum.counts)),
-        newYearCounts = []
+        newYearCounts = [],
+        childDiv, svg
 
 
     if (elements.size() === 0) return
@@ -177,22 +173,28 @@ export function lineChart(selector) {
     elements.selectAll("*")
         .remove()
 
+    childDiv = elements.append("div")
+        .attr("class", "uk-margin-remove uk-height-1-1")
+        .attr("id", "lineChartChildDiv")
+
+    svg = childDiv.append("svg")
+        .attr("class", "chart chart-muted")
+        .attr("id", "lineChartSVG")
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("viewBox", "-0.5 -192.1917724609375 961 922.6917724609375")
+
     yearCounts.forEach((value, key) => newYearCounts.push({year: timeParser(key), counts: value}))
 
-    elements.append("svg")
-        .append("path")
+    svg.append("path")
         .datum(newYearCounts)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 3)
         .attr("d", line)
 
-    d3.select("#lineChartParentDiv")
-        .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) * .75}px`)
 
-    d3.select("#lineChartDiv")
-        .style("width", `${3800}px`)
+    legend.lineChart(svg, xAxis, yAxis)
+    adjust.boundingBox(svg)
 
-    legend.lineChart(elements, xAxis, yAxis)
-    adjust.boundingBox(elements)
+    childDiv.style("width", `${svg.node().getBBox().width * (parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) - 28) * .75 / svg.node().getBBox().height}px`)
 }

@@ -4,8 +4,7 @@ export function boundingBox(elements) {
 
 
         elements.attr(
-            "viewBox",
-            `${boundingBox.x} ${boundingBox.y} ${boundingBox.width} ${boundingBox.height}`
+            "viewBox", `${boundingBox.x} ${boundingBox.y} ${boundingBox.width} ${boundingBox.height}`
         )
     }
 }

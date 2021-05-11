@@ -10,8 +10,9 @@ function preProcessData(data) {
 
 
     geographicalData = geographicalData.features
-    meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
-        .forEach(function(datum) {
+
+    meteoriteLandings = meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
+    meteoriteLandings.forEach(function(datum) {
             [datum.longitude, datum.latitude] = projection([datum.longitude, datum.latitude])
 
             if (datum.country === "United States") datum.country = "USA"
@@ -26,10 +27,6 @@ function initializeConstants(geographicalData, meteoriteLandings) {
     constants.setGeographicalData(geographicalData)
     constants.setMeteoriteLandings(meteoriteLandings)
 
-    try {
-        get.counts()
-    } catch {}
-
     // constants.setCountryOccurrences(get.counts(meteoriteLandings, "country"))
     // constants.setClassOccurrences(get.counts(meteoriteLandings, "class"))
     // constants.setYearOccurrences(get.counts(meteoriteLandings, "year", true))
@@ -40,7 +37,7 @@ function initializeConstants(geographicalData, meteoriteLandings) {
 }
 
 
-function initializeVisualizations() {
+export function initializeVisualizations() {
     draw.choropleth("#mapOne", true)
     draw.choropleth("#mapTwo", false)
     draw.map("#mapThree")

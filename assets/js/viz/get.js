@@ -1,7 +1,7 @@
 import * as constants from "./constants.js"
 import * as variables from "./variables.js"
 
-export function counts(dataSet, column, sortKey = false) {
+export function counts(dataSet, column, sortKey = false, isTime = false) {
     let counts = new Map(),
         columnValue, currentCount,
         sortedMap
@@ -9,6 +9,9 @@ export function counts(dataSet, column, sortKey = false) {
 
     dataSet.forEach(function(datum) {
         columnValue = datum[column] || "Unknown"
+
+        if (isTime === true && columnValue === "Unknown") return
+
         currentCount = counts.get(columnValue) || 0
 
         counts.set(columnValue, currentCount + 1)

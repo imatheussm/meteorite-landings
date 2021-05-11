@@ -91,16 +91,16 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
     overflow-y: scroll;
 }
 
-#lineChartParentDiv {
+#lineChart {
     overflow-x: scroll;
     direction: rtl;
 }
 
-#lineChartDiv {
+#lineChartChildDiv {
     direction: rtl;
 }
 
-#lineChart {
+#lineChartSVG {
     direction: ltr;
 }
 
