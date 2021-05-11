@@ -60,7 +60,7 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
     let elements = d3.selectAll(selector),
         radiusScale = d3.scaleLinear()
             .domain([0, 16000000])
-            .range([1, 20]),
+            .range([1.5, 20]),
         colorPalette = d3.scaleOrdinal()
             .domain(uniqueCategories)
             .range(d3.schemeSet1.slice(0, 2).reverse()),

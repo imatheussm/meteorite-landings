@@ -2,6 +2,19 @@ import * as constants from "./constants.js"
 import * as get from "./get.js"
 
 export function circles(dataSet, elements, uniqueCategories, colorPalette, radiusScale) {
+    let resetButton = d3.select("#button-container")
+
+    resetButton.append("button")
+        .attr("class", "uk-button uk-button-secondary uk-button-small")
+        .append("text")
+        .text("Reset Map")
+        .on("click", function() {
+            d3.selectAll("path").style("opacity", 1)
+            d3.selectAll("circle.data-circle").style("opacity", 0.75)
+            d3.selectAll("circle.legend-circle").style("opacity", 1)
+
+        })
+        
     let categoryLegendGroup = elements.append("g")
 
     categoryLegendGroup.append("text")
@@ -27,21 +40,20 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
         .on("mouseover", (event) => d3.select(event.target).style("filter", "brightness(75%)"))
         .on("mouseout", (event) => d3.select(event.target).style("filter", "none"))
         .on("click", function(event, category) {
-
             d3.selectAll("path").attr("opacity", 0.3)
 
             let circles = elements.selectAll("circle.data-circle"),
                 legendCircles = elements.selectAll("circle.legend-circle")
 
             circles.style("opacity", 1)
-            legendCircles.style("stroke", "None")
+            legendCircles.style("opacity", 1)
 
             circles.data(dataSet)
                 .filter(datum => datum.fall !== category.name)
-                .style("opacity", 0.3)
+                .style("opacity", 0.1)
 
-            legendCircles.filter(datum => datum.name === category.name)
-                .style("stroke-width", "3px")
+            legendCircles.filter(datum => datum.name !== category.name)
+                .style("opacity", 0.1)
 
         })
         .select(function() {return this.parentNode})
