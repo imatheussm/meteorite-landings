@@ -3,38 +3,50 @@ import * as draw from "./draw.js"
 import * as get from "./get.js"
 import * as parse from "./parse.js"
 
-function initialize(data) {
+
+function preProcessData(data) {
     let [geographicalData, meteoriteLandings] = data,
-        projection = constants.PROJECTION,
-        countryOccurrences, classOccurrences, yearOccurrences,
-        meanValues, maxCount, maxMeanValue, uniqueCategories
+        projection = constants.PROJECTION
 
-
-    meteoriteLandings.forEach(function(datum) {
-        [datum.longitude, datum.latitude] = projection([datum.longitude, datum.latitude])
-
-        if (datum.country === "United States") datum.country = "USA"
-        else if (datum.country === "United Kingdom") datum.country = "England"
-    })
-
-    meteoriteLandings = meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
 
     geographicalData = geographicalData.features
-    countryOccurrences = get.counts(meteoriteLandings, "country")
-    classOccurrences = get.counts(meteoriteLandings, "class")
-    yearOccurrences = get.counts(meteoriteLandings, "year", true)
-    meanValues = get.meanValues(meteoriteLandings, countryOccurrences, "country", "mass")
-    maxCount = 3093
-    maxMeanValue = 1779331.6333333333
-    uniqueCategories = get.uniqueValues(meteoriteLandings, "fall")
+    meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
+        .forEach(function(datum) {
+            [datum.longitude, datum.latitude] = projection([datum.longitude, datum.latitude])
+
+            if (datum.country === "United States") datum.country = "USA"
+            else if (datum.country === "United Kingdom") datum.country = "England"
+        })
+
+    return [geographicalData, meteoriteLandings]
+}
 
 
-    draw.choropleth(geographicalData, meteoriteLandings, "#mapOne", countryOccurrences, maxCount, true)
-    draw.choropleth(geographicalData, meteoriteLandings, "#mapTwo", meanValues, maxMeanValue, false)
-    draw.map(geographicalData, "#mapThree")
-    draw.circles(meteoriteLandings, "#mapThree", uniqueCategories)
-    draw.barChart(meteoriteLandings, "#barChart", classOccurrences, yearOccurrences)
-    draw.lineChart(meteoriteLandings, "#lineChart", yearOccurrences)
+function initializeConstants(geographicalData, meteoriteLandings) {
+    constants.setGeographicalData(geographicalData)
+    constants.setMeteoriteLandings(meteoriteLandings)
+
+    try {
+        get.counts()
+    } catch {}
+
+    // constants.setCountryOccurrences(get.counts(meteoriteLandings, "country"))
+    // constants.setClassOccurrences(get.counts(meteoriteLandings, "class"))
+    // constants.setYearOccurrences(get.counts(meteoriteLandings, "year", true))
+    // constants.setMeanMasses(
+    //     get.meanValues(meteoriteLandings, constants.countryOccurrences, "country", "mass")
+    // )
+    // constants.setUniqueCategories(get.uniqueValues(meteoriteLandings, "fall"))
+}
+
+
+function initializeVisualizations() {
+    draw.choropleth("#mapOne", true)
+    draw.choropleth("#mapTwo", false)
+    draw.map("#mapThree")
+    draw.circles("#mapThree")
+    draw.barChart("#barChart")
+    draw.lineChart("#lineChart")
 }
 
 $(function() {
@@ -44,5 +56,11 @@ $(function() {
             parse.meteoriteLandings)
         // d3.json(`/assets/json/countries.json`),
         // d3.dsv(";", "/assets/csv/meteorite_landings.csv", parse.meteoriteLandings)
-    ]).then(initialize)
+    ]).then(function(data) {
+        const [GEOGRAPHICAL_DATA, METEORITE_LANDINGS] = preProcessData(data)
+
+
+        initializeConstants(GEOGRAPHICAL_DATA, METEORITE_LANDINGS)
+        initializeVisualizations()
+    })
 })
