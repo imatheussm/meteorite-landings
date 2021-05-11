@@ -17,6 +17,7 @@ function initialize(data) {
         else if (datum.country === "United Kingdom") datum.country = "England"
     })
 
+    //meteoriteLandings = meteoriteLandings.filter(datum => datum.year > 2000)
     meteoriteLandings = meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
 
     geographicalData = geographicalData.features

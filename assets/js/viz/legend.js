@@ -2,18 +2,6 @@ import * as constants from "./constants.js"
 import * as get from "./get.js"
 
 export function circles(dataSet, elements, uniqueCategories, colorPalette, radiusScale) {
-    let resetButton = d3.select("#button-container")
-
-    resetButton.append("button")
-        .attr("class", "uk-button uk-button-secondary uk-button-small")
-        .append("text")
-        .text("Reset Map")
-        .on("click", function() {
-            d3.selectAll("path").style("opacity", 1)
-            d3.selectAll("circle.data-circle").style("opacity", 0.75)
-            d3.selectAll("circle.legend-circle").style("opacity", 1)
-
-        })
         
     let categoryLegendGroup = elements.append("g")
 
@@ -24,7 +12,7 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
         .style("stroke", "none")
         .style("font-weight", "bold")
         .style("cursor", "default")
-        .attr("transform", `translate(${-0.5 + 5}, ${250})`)
+        .attr("transform", `translate(${0}, ${250})`)
 
     categoryLegendGroup.selectAll()
         .data(uniqueCategories)
@@ -216,7 +204,7 @@ export function barChart(elements, xAxis, yAxis) {
     elements.append("g")
         .attr("transform", "translate(800, 0)")
         .call(d3.axisRight(yAxis))
-
+    
 
     elements.selectAll("g.tick text")
         .style("fill", constants.FILL)

@@ -6,11 +6,35 @@ import * as filters from "./filters.js"
 import * as legend from "./legend.js"
 
 export function map(geographicalData, selector) {
+
+    // Reset Button
+    let resetButton = d3.select("#button-container")
+
+    resetButton.append("button")
+        .attr("class", "uk-button uk-button-secondary uk-button-small")
+        .append("text")
+        .text("Reset Map")
+        .on("click", function() {
+            d3.selectAll("path").style("opacity", 1)
+            d3.selectAll("circle.data-circle").style("opacity", 0.75)
+            d3.selectAll("circle.legend-circle").style("opacity", 1)
+
+    })
+
     let elements = d3.select(selector)
+
+    // Map title
+    elements.append("text")
+        .text("Occurrences Map: place of occurrence, mass and type of meteorites ")
+        .style("font-size", "20px")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .attr("transform", `translate(${200}, ${-240})`)
 
 
     if (elements.size() === 0) return
 
+    // Map draw
     elements.append("g")
         .selectAll("path")
         .data(geographicalData)
@@ -27,6 +51,14 @@ export function choropleth(geographicalData, meteoriteLandings, selector, values
         palette = d3.scaleSequential([0, upperBound],
             isCount === true ? d3.interpolateReds : d3.interpolateBlues
         )
+
+    // Map title
+    elements.append("text")
+        .text(`Choropleth Map: ${isCount ? "Occurrences by Country" : "Average mass by Country"}`)
+        .style("font-size", "30px")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .attr("transform", `translate(${0}, ${-240})`)
 
 
     if (elements.size() === 0) return
@@ -87,6 +119,7 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
 }
 
 export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
+    
     let xAxis = d3.scaleLinear()
             .domain([0, d3.max(Array.from(classCounts.values()))])
             .range([800, 0]),
@@ -94,8 +127,8 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
             .domain(Array.from(classCounts.keys()))
             .range([0, classCounts.size * 50])
             .padding(0.3),
-        elements = d3.selectAll(selector)
-
+        elements = d3.selectAll(selector),
+        tooltip = constants.TOOLTIP
 
     if (elements.size() === 0) return
 
@@ -109,6 +142,8 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
         .attr("height", yAxis.bandwidth())
         .attr("x", datum => xAxis(datum[1]))
         // .attr("transform", "translate(1000, 0)")
+        .on("mouseover", function(event, datum) {eventFunctions.showBarTooltip(event, datum, tooltip)})
+        .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
         .on("mousedown", function(event, bar) {
             elements.selectAll("rect").style("fill", constants.FILL)
             d3.select(this).style("fill", "indianred")
@@ -154,14 +189,14 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
 
     yearCounts.forEach((value, key) => newYearCounts.push({year: timeParser(key), counts: value}))
 
-    console.log("new year counts: ", newYearCounts)
     elements.append("svg")
         .append("path")
         .datum(newYearCounts)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
-        .attr("stroke-width", 3)
+        .attr("stroke-width", 6)
         .attr("d", line)
+
 
     d3.select("#lineChartParentDiv")
         .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) * .75}px`)
