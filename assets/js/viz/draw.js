@@ -112,10 +112,12 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
         .on("mousedown", function(event, bar) {
             elements.selectAll("rect").style("fill", constants.FILL)
             d3.select(this).style("fill", "indianred")
+            d3.select("#lineChartDiv").select('*').remove()
+            d3.select("#lineChartDiv").append("svg").attr("id", "lineChart")
 
-            // console.log(meteoriteLandings.filter(datumClass => datumClass.class === bar[0]))
+            console.log(meteoriteLandings.filter(datumClass => datumClass.class === bar[0]))
             lineChart(meteoriteLandings.filter(datumClass => datumClass.class === bar[0]), "#lineChart",
-                yearCounts)
+            yearCounts)
         })
 
     d3.select("#barChartDiv")
@@ -129,7 +131,7 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
 }
 
 export function lineChart(meteoriteLandings, selector, yearCounts) {
-    let elements = d3.selectAll(selector),
+    let elements = d3.select(selector),
         timeParser = d3.timeParse("%Y"),
         xAxis = d3.scaleTime()
             .domain([new Date(860, 1, 1), new Date(2013, 1, 1)])
@@ -145,14 +147,16 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
             }),
         newYearCounts = []
 
+    yearCounts = get.counts(meteoriteLandings, "year", true)
+
 
     if (elements.size() === 0) return
 
     yearCounts.forEach((value, key) => newYearCounts.push({year: timeParser(key), counts: value}))
 
-    elements.selectAll("*").remove()
-
-    elements.append("path")
+    console.log("new year counts: ", newYearCounts)
+    elements.append("svg")
+        .append("path")
         .datum(newYearCounts)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
@@ -163,7 +167,7 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
         .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) * .75}px`)
 
     d3.select("#lineChartDiv")
-        .style("width", `${3400}px`)
+        .style("width", `${3800}px`)
 
     legend.lineChart(elements, xAxis, yAxis)
     adjust.boundingBox(elements)
