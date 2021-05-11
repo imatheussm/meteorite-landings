@@ -210,13 +210,16 @@ export function barChart(elements, xAxis, yAxis) {
         .call(d3.axisTop(xAxis))
 
     elements.append("g")
-        .call(d3.axisLeft(yAxis))
+        .attr("transform", "translate(800, 0)")
+        .call(d3.axisRight(yAxis))
+
 
     elements.selectAll("g.tick text")
         .style("fill", constants.FILL)
         .style("stroke", "none")
         .style("font-size", "20px")
         .style("cursor", "default")
+        // .call(adjust.text, 80)
 }
 
 export function lineChart(elements, xAxis, yAxis) {

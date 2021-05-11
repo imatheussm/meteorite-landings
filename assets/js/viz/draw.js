@@ -8,7 +8,6 @@ import * as legend from "./legend.js"
 export function map(geographicalData, selector) {
     let elements = d3.selectAll(selector)
 
-
     elements.append("g")
         .selectAll("path")
         .data(geographicalData)
@@ -16,13 +15,15 @@ export function map(geographicalData, selector) {
         .attr("fill", constants.FILL)
         .attr("d", constants.PATH)
 
-    adjust.boundingBox(elements)
+    if (elements.length > 0) adjust.boundingBox(elements)
 }
 
 export function choropleth(geographicalData, meteoriteLandings, selector, values, upperBound, isCount) {
     let elements = d3.selectAll(selector),
         tooltip = constants.TOOLTIP,
-        palette = d3.scaleSequential([0, upperBound], d3.interpolateReds)
+        palette = d3.scaleSequential([0, upperBound],
+            isCount === true ? d3.interpolateReds : d3.interpolateBlues
+        )
 
 
     elements.append("g")
@@ -62,18 +63,18 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
         tooltip = constants.TOOLTIP
 
 
-    elements.selectAll("circle")
-        .data(meteoriteLandings)
-        .enter()
-        .append("circle")
-        .attr("class", "data-circle")
-        .attr("cx", datum => datum.longitude)
-        .attr("cy", datum => datum.latitude)
-        .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
-        .on("mouseover", function(event, datum) {eventFunctions.showCircleTooltip(event, datum, tooltip, radiusScale)})
-        .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
-        .style("fill", datum => colorPalette(datum.fall))
-        .style("opacity", 0.75)
+    // elements.selectAll("circle")
+    //     .data(meteoriteLandings)
+    //     .enter()
+    //     .append("circle")
+    //     .attr("class", "data-circle")
+    //     .attr("cx", datum => datum.longitude)
+    //     .attr("cy", datum => datum.latitude)
+    //     .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
+    //     .on("mouseover", function(event, datum) {eventFunctions.showCircleTooltip(event, datum, tooltip, radiusScale)})
+    //     .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
+    //     .style("fill", datum => colorPalette(datum.fall))
+    //     .style("opacity", 0.75)
 
     legend.circles(meteoriteLandings, elements, uniqueCategories, colorPalette, radiusScale)
 }
@@ -81,7 +82,7 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
 export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
     let xAxis = d3.scaleLinear()
             .domain([0, d3.max(Array.from(classCounts.values()))])
-            .range([0, 800]),
+            .range([800, 0]),
         yAxis = d3.scaleBand()
             .domain(Array.from(classCounts.keys()))
             .range([0, classCounts.size * 50])
@@ -94,9 +95,11 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
         .join("rect")
         .attr("fill", constants.FILL)
         //.attr("x", function(d) { return x(d.sales) })
-        .attr("width", datum => xAxis(datum[1]))
+        .attr("width", datum => 800 - xAxis(datum[1]))
         .attr("y", datum => yAxis(datum[0]))
         .attr("height", yAxis.bandwidth())
+        .attr("x", datum => xAxis(datum[1]))
+        // .attr("transform", "translate(1000, 0)")
         .on("mousedown", function(event, bar) {
             elements.selectAll("rect").style("fill", constants.FILL)
             d3.select(this).style("fill", "indianred")
@@ -107,7 +110,10 @@ export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
         })
 
     d3.select("#barChartDiv")
-        .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapThree").node()).height) * .75}px`)
+        .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).height) * .75}px`)
+
+    // d3.select("#barChartDiv")
+    //     .style("width", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).width)}px`)
 
     legend.barChart(elements, xAxis, yAxis)
     adjust.boundingBox(elements)
@@ -141,6 +147,9 @@ export function lineChart(meteoriteLandings, selector, yearCounts) {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 3)
         .attr("d", line)
+
+    // d3.select("#lineChartParentDiv")
+    //     .style("width", `${parseFloat(window.getComputedStyle(d3.select("#mapOne").node()).width)}px`)
 
     d3.select("#lineChartDiv")
         .style("width", `${3400}px`)
