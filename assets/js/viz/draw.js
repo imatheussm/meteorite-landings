@@ -10,9 +10,18 @@ export function map(selector) {
     const GEOGRAPHICAL_DATA = constants.geographicalData
     let elements = d3.select(selector)
 
+    // Map title
+    elements.append("text")
+        .text("Occurrences Map: place of occurrence, mass and type of meteorites ")
+        .style("font-size", "20px")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .attr("transform", `translate(${200}, ${-240})`)
+
 
     if (elements.size() === 0) return
 
+    // Map draw
     elements.append("g")
         .selectAll("path")
         .data(GEOGRAPHICAL_DATA)
@@ -20,7 +29,21 @@ export function map(selector) {
         .attr("fill", constants.FILL)
         .attr("d", constants.PATH)
 
+    let resetButton = d3.select("#button-container")
+
+    resetButton.append("button")
+        .attr("class", "uk-button uk-button-secondary uk-button-small")
+        .append("text")
+        .text("Reset Map")
+        .on("click", function() {
+            d3.selectAll("path").style("opacity", 1)
+            d3.selectAll("circle.data-circle").style("opacity", 0.75)
+            d3.selectAll("circle.legend-circle").style("opacity", 1)
+    
+    })
+
     adjust.boundingBox(elements)
+
 }
 
 export function choropleth(selector, isCount) {
@@ -32,7 +55,6 @@ export function choropleth(selector, isCount) {
         upperBound = Math.min(isCount === true ? 3093 : 1779331.6333333333, d3.max(Array.from(values.values()))),
         tooltip = constants.TOOLTIP,
         palette = d3.scaleSequential([0, upperBound], isCount === true ? d3.interpolateReds : d3.interpolateBlues)
-
 
     if (elements.size() === 0) return
 
@@ -107,7 +129,8 @@ export function barChart(selector) {
         yAxis = d3.scaleBand()
             .domain(Array.from(classCounts.keys()))
             .range([0, classCounts.size * 50])
-            .padding(0.3)
+            .padding(0.3),
+        tooltip = constants.TOOLTIP
 
 
     if (elements.size() === 0) return
@@ -125,6 +148,8 @@ export function barChart(selector) {
         .attr("height", yAxis.bandwidth())
         .attr("x", datum => xAxis(datum[1]))
         // .attr("transform", "translate(1000, 0)")
+        .on("mouseover", function(event, datum) {eventFunctions.showBarTooltip(event, datum, tooltip)})
+        .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
         .on("mousedown", function(event, bar) {
             let className = bar[0]
 
@@ -189,7 +214,7 @@ export function lineChart(selector) {
         .datum(newYearCounts)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
-        .attr("stroke-width", 3)
+        .attr("stroke-width", 6)
         .attr("d", line)
 
 

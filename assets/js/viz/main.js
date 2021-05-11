@@ -18,7 +18,7 @@ function preProcessData(data) {
             if (datum.country === "United States") datum.country = "USA"
             else if (datum.country === "United Kingdom") datum.country = "England"
         })
-
+    
     return [geographicalData, meteoriteLandings]
 }
 

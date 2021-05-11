@@ -1,3 +1,4 @@
+
 export function showChoroplethTooltip(event, message, tooltip) {
     let target = $(event.target),
         position = target.position(),
@@ -5,6 +6,20 @@ export function showChoroplethTooltip(event, message, tooltip) {
 
 
     tooltip.html(message)
+        .style("display", "block")
+
+    tooltipWidth = tooltip.node().getBoundingClientRect().width
+
+    tooltip.style("top", (position.top - 30) + "px")
+        .style("left", (position.left + (tooltipWidth / 2)) + "px")
+}
+
+export function showBarTooltip(event, datum, tooltip) {
+    let target = $(event.target),
+        position = target.position(),
+        tooltipWidth
+    
+    tooltip.html(`Class: ${datum[0]}<br>Occurrences: ${datum[1]}`)
         .style("display", "block")
 
     tooltipWidth = tooltip.node().getBoundingClientRect().width
