@@ -204,3 +204,32 @@ export function choropleth(elements, title, palette) {
 
     if (lastTickerText.charAt(lastTickerText.length - 1) !== "+") lastTicker.text(`${lastTickerText}+`)
 }
+
+export function barChart(elements, xAxis, yAxis) {
+    elements.append("g")
+        .call(d3.axisTop(xAxis))
+
+    elements.append("g")
+        .call(d3.axisLeft(yAxis))
+
+    elements.selectAll("g.tick text")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .style("font-size", "20px")
+        .style("cursor", "default")
+}
+
+export function lineChart(elements, xAxis, yAxis) {
+    elements.append("g")
+        .attr("transform", `translate(0, ${1000})`)
+        .call(d3.axisBottom(xAxis))
+
+    elements.append("g")
+        .call(d3.axisLeft(yAxis))
+
+    elements.selectAll("g.tick text")
+        .style("fill", constants.FILL)
+        .style("stroke", "none")
+        .style("font-size", "30px")
+        .style("cursor", "default")
+}

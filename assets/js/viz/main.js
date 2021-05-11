@@ -6,7 +6,8 @@ import * as parse from "./parse.js"
 function initialize(data) {
     let [geographicalData, meteoriteLandings] = data,
         projection = constants.PROJECTION,
-        counts, meanValues, maxCount, maxMeanValue, uniqueCategories
+        countryOccurrences, classOccurrences, yearOccurrences,
+        meanValues, maxCount, maxMeanValue, uniqueCategories
 
 
     meteoriteLandings.forEach(function(datum) {
@@ -16,18 +17,24 @@ function initialize(data) {
         else if (datum.country === "United Kingdom") datum.country = "England"
     })
 
+    meteoriteLandings = meteoriteLandings.filter(datum => datum.year >= 860 && datum.year <= 2013)
+
     geographicalData = geographicalData.features
-    counts = get.counts(meteoriteLandings, "country")
-    meanValues = get.meanValues(meteoriteLandings, counts, "country", "mass")
+    countryOccurrences = get.counts(meteoriteLandings, "country")
+    classOccurrences = get.counts(meteoriteLandings, "class")
+    yearOccurrences = get.counts(meteoriteLandings, "year", true)
+    meanValues = get.meanValues(meteoriteLandings, countryOccurrences, "country", "mass")
     maxCount = 3093
     maxMeanValue = 1779331.6333333333
     uniqueCategories = get.uniqueValues(meteoriteLandings, "fall")
 
 
-    draw.choropleth(geographicalData, meteoriteLandings, "#mapOne", counts, maxCount, true)
+    draw.choropleth(geographicalData, meteoriteLandings, "#mapOne", countryOccurrences, maxCount, true)
     draw.choropleth(geographicalData, meteoriteLandings, "#mapTwo", meanValues, maxMeanValue, false)
     draw.map(geographicalData, "#mapThree")
     draw.circles(meteoriteLandings, "#mapThree", uniqueCategories)
+    draw.barChart(meteoriteLandings, "#barChart", classOccurrences, yearOccurrences)
+    draw.lineChart(meteoriteLandings, "#lineChart", yearOccurrences)
 }
 
 $(function() {

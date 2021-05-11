@@ -76,18 +76,35 @@ input:checked + .uk-switch-slider.uk-switch-big:before {
     background-color: rgba(255,255,255,0.22);
 }
 
-.map {
+.map, .chart {
     stroke: #f8f8f8;
     stroke-width: 1px;
     stroke-linejoin: round;
 }
 
-.map-muted {
+.muted {
     color: #fff;
     fill: #666;
 }
 
-.map-red {
-    color: indianred;
-    fill: indianred;
+#barChartDiv {
+    overflow-y: scroll;
 }
+
+#lineChartParentDiv {
+    overflow-x: scroll;
+}
+
+/*#lineChartParentDiv {*/
+/*    width: 5800px;*/
+/*}*/
+
+/*#lineChartXAxis {*/
+/*    position: absolute;*/
+/*    cursor: default;*/
+/*}*/
+
+/*#lineChartDiv {*/
+/*    !*width: 2766px;*!*/
+/*    width: 1300px;*/
+/*}*/

@@ -77,3 +77,74 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
 
     legend.circles(meteoriteLandings, elements, uniqueCategories, colorPalette, radiusScale)
 }
+
+export function barChart(meteoriteLandings, selector, classCounts, yearCounts) {
+    let xAxis = d3.scaleLinear()
+            .domain([0, d3.max(Array.from(classCounts.values()))])
+            .range([0, 800]),
+        yAxis = d3.scaleBand()
+            .domain(Array.from(classCounts.keys()))
+            .range([0, classCounts.size * 50])
+            .padding(0.3),
+        elements = d3.selectAll(selector)
+
+
+    elements.selectAll()
+        .data(classCounts)
+        .join("rect")
+        .attr("fill", constants.FILL)
+        //.attr("x", function(d) { return x(d.sales) })
+        .attr("width", datum => xAxis(datum[1]))
+        .attr("y", datum => yAxis(datum[0]))
+        .attr("height", yAxis.bandwidth())
+        .on("mousedown", function(event, bar) {
+            elements.selectAll("rect").style("fill", constants.FILL)
+            d3.select(this).style("fill", "indianred")
+
+            // console.log(meteoriteLandings.filter(datumClass => datumClass.class === bar[0]))
+            lineChart(meteoriteLandings.filter(datumClass => datumClass.class === bar[0]), "#lineChart",
+                yearCounts)
+        })
+
+    d3.select("#barChartDiv")
+        .style("height", `${parseFloat(window.getComputedStyle(d3.select("#mapThree").node()).height) * .75}px`)
+
+    legend.barChart(elements, xAxis, yAxis)
+    adjust.boundingBox(elements)
+}
+
+export function lineChart(meteoriteLandings, selector, yearCounts) {
+    let elements = d3.selectAll(selector),
+        timeParser = d3.timeParse("%Y"),
+        xAxis = d3.scaleTime()
+            .domain([new Date(860, 1, 1), new Date(2013, 1, 1)])
+            .range([0, 10000]),
+        yAxis = d3.scaleLinear()
+            .domain([0, d3.max(Array.from(yearCounts.values()))])
+            .range([1000, 0]),
+        line = d3.line()
+            .x(datum => xAxis(datum.year))
+            .y(datum => {
+                // console.log(datum)
+                return yAxis(datum.counts)
+            }),
+        newYearCounts = []
+
+
+    yearCounts.forEach((value, key) => newYearCounts.push({year: timeParser(key), counts: value}))
+
+    elements.selectAll("*").remove()
+
+    elements.append("path")
+        .datum(newYearCounts)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 3)
+        .attr("d", line)
+
+    d3.select("#lineChartDiv")
+        .style("width", `${3400}px`)
+
+    legend.lineChart(elements, xAxis, yAxis)
+    adjust.boundingBox(elements)
+}

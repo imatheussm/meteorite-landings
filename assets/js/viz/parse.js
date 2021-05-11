@@ -7,6 +7,7 @@ export function meteoriteLandings(row) {
         mass: +row.mass,
         fall: row.fall,
         // year: new Date(+row.year, 0, 1),
+        // year: d3.timeParse("%Y")(+row.year),
         year: +row.year,
         latitude: +row.reclat,
         longitude: +row.reclong,

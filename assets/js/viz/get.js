@@ -1,16 +1,21 @@
-export function counts(dataSet, groupBy) {
+export function counts(dataSet, column, sortKey = false) {
     let counts = new Map(),
-        columnValue, currentCount
+        columnValue, currentCount,
+        sortedMap
 
 
     dataSet.forEach(function(datum) {
-        columnValue = datum[groupBy] || "Unknown"
+        columnValue = datum[column] || "Unknown"
         currentCount = counts.get(columnValue) || 0
 
         counts.set(columnValue, currentCount + 1)
     })
 
-    return counts
+    sortedMap = new Map([...counts.entries()].sort(function(a, b) {
+        return sortKey === true ? b[0] - a[0] : b[1] - a[1]
+    }))
+
+    return sortedMap
 }
 
 
@@ -45,6 +50,15 @@ export function uniqueValues(dataSet, column) {
 }
 
 
+export function groupedDataSet(dataSet, by) {
+    return dataSet.reduce(function(rv, x) {
+        (rv[x[by]] = rv[x[by]] || []).push(x)
+
+        return rv
+    }, {})
+}
+
+
 export function tooltip(selector) {
     return d3.select(selector)
         .append("div")
@@ -54,6 +68,7 @@ export function tooltip(selector) {
         .style("position", "absolute")
         .style("text-align", "center")
 }
+
 
 export function ramp(color, n = 256) {
     let canvas = document.createElement("canvas"),

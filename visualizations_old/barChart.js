@@ -1,12 +1,15 @@
 export function barChart(data) {
-    var groupBy = function(xs, key) {
-        return xs.reduce(function(rv, x) {
-          (rv[x[key]] = rv[x[key]] || []).push(x);
-          return rv;
-        }, {});
-      };
+    var groupBy = function(dataSet, column) {
+        return dataSet.reduce(function(rv, x) {
+            (rv[x[column]] = rv[x[column]] || []).push(x)
+
+            return rv
+        }, {})
+      }
       
-    const classGroup = groupBy(data, 'class');
+    const classGroup = groupBy(data, 'class')
+
+    console.log(classGroup.entries)
 
     let occurrencesByClass = []
 
@@ -32,177 +35,132 @@ export function barChart(data) {
 
     var x = d3.scaleLinear()
         .domain([0, d3.max(occurrencesByClass.map(d => d.value))])
-        .range([margin.left, width - margin.right]);
+        .range([margin.left, width - margin.right])
 
-  
+    console.log("x domain")
+    console.log(d3.max(occurrencesByClass.map(d => d.value)))
+    console.log("y domain")
+    console.log(occurrencesByClass.map(d => d.class))
+
     var svg = d3.select(".graph").append("svg")
         .attr("width", width)
         .attr("height", height + margin.top + margin.bottom)
     .append("g")
         .attr("transform", 
-            "translate(" + margin.left + "," + margin.top + ")");
+            "translate(" + margin.left + "," + margin.top + ")")
         svg
             .append("rect")
             .attr("width", "100%")
             .attr("height", "100%")
-            .style("fill", "#F5F5F2");
+            .style("fill", "#F5F5F2")
 
         svg.selectAll(".bar")
             .data(occurrencesByClass)
-          .join("rect")
+            .join("rect")
             .attr("class", "bar")
-            //.attr("x", function(d) { return x(d.sales); })
-            .attr("width", function(d) {return x(d.value); } )
-            .attr("y", function(d) { return y(d.class); })
+            //.attr("x", function(d) { return x(d.sales) })
+            .attr("width", function(d) {return x(d.value) } )
+            .attr("y", function(d) { console.log(d); console.log(`${d.class} | ${y(d.class)}`); return y(d.class) })
             .attr("height", y.bandwidth())
             .on("mousedown", function(e, d) {
                 d3.select("#svgLine").remove()
                 svg.selectAll(".bar").style("fill", "black")
-                d3.select(this).style("fill","red");
-                let name = d.class;
-                let selection = data.filter(d => d.class == name);
+                d3.select(this).style("fill","red")
+                let name = d.class
+                let selection = data.filter(d => d.class === name)
                 //console.log(selection)
                 drawLines(selection)
-            });
+            })
 
             svg.append("g")
-                 .call(d3.axisTop(x));
+                 .call(d3.axisTop(x))
 
 
-             svg.append("g").call(d3.axisLeft(y));
+             svg.append("g").call(d3.axisLeft(y))
 
             drawLines(data)
-            
-            
-            function drawLines(data, svg) {
-                width = 960
-                height = 420
-                margin = {top: 20, right: 20, bottom: 30, left: 30}
+}
 
-                var groupBy = function(xs, key) {
-                    return xs.reduce(function(rv, x) {
-                      (rv[x[key]] = rv[x[key]] || []).push(x);
-                      return rv;
-                    }, {});
-                  };
-                  
-                const yearGroup = groupBy(data, 'year');
-            
-                let occurrencesByYear = []
-            
-                var parseTime = d3.timeParse("%Y")
-            
-                for(let item of Object.entries(yearGroup)) {
-                    if (item[0] >= 860 && item[0] <= 2013)
-                        occurrencesByYear.push({"year": parseTime(item[0]), "value" : +item[1].length})
-                }
-                
-                console.log("Infos:", occurrencesByYear)
-                //const overwidth = 5800;
+function drawLines(data, svg) {
+    let width = 960,
+        height = 420,
+        margin = {top: 20, right: 20, bottom: 30, left: 30}
 
-                var line = d3.line()
-                    .x(function(d) { return x(d.year); })
-                    .y(function(d) { return y(d.value); });
-                const x = d3.scaleTime()
-                    .domain([new Date(860, 1, 1), new Date (2013, 1, 1)])
-                    .range([margin.left, width * 6 - margin.right])
-                    
+    var groupBy = function(xs, key) {
+        return xs.reduce(function(rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x)
+            return rv
+        }, {})
+    }
 
-                const minX = x(occurrencesByYear[0].year);
-                const maxX = x(occurrencesByYear[occurrencesByYear.length - 1].year);
-                //const overwidth = maxX - minX + margin.left + margin.right;
-                const overwidth = 5800
-                
-                const y = d3.scaleLinear()
-                .domain([0, 3400])
-                .range([height - margin.bottom, margin.top])
+    const yearGroup = groupBy(data, 'year')
 
-                var parent = d3.select(".graph2").append("g").attr("id", "svgLine")
+    let occurrencesByYear = []
 
-                var yAxis = g => g
-                    .attr("transform", `translate(${margin.left},0)`)
-                    .call(d3.axisLeft(y).ticks(15))  
+    var parseTime = d3.timeParse("%Y")
+
+    for(let item of Object.entries(yearGroup)) {
+        if (item[0] >= 860 && item[0] <= 2013)
+            occurrencesByYear.push({"year": parseTime(item[0]), "value" : +item[1].length})
+    }
+
+    console.log("Infos:", occurrencesByYear)
+    //const overwidth = 5800
+
+    var line = d3.line()
+        .x(function(d) { return x(d.year) })
+        .y(function(d) { return y(d.value) })
+    const x = d3.scaleTime()
+        .domain([new Date(860, 1, 1), new Date (2013, 1, 1)])
+        .range([margin.left, width * 6 - margin.right])
 
 
-                parent.append("svg")
-                .attr("id", "svgLine")
-                .attr("width", width)
-                .attr("height", height)
-                .style("position", "absolute")
-                .style("pointer-events", "none")
-                .style("z-index", 1)
-                .call(svg => svg.append("g").call(yAxis));
+    const minX = x(occurrencesByYear[0].year)
+    const maxX = x(occurrencesByYear[occurrencesByYear.length - 1].year)
+    //const overwidth = maxX - minX + margin.left + margin.right
+    const overwidth = 5800
 
-                const body = parent.append("div")
-                .style("overflow-x", "scroll")
-                .style("direction", "rtl")
-                .style("-webkit-overflow-scrolling", "touch");
+    const y = d3.scaleLinear()
+        .domain([0, 3400])
+        .range([height - margin.bottom, margin.top])
 
-            var xAxis = g => g
-                .attr("transform", `translate(0,${height - margin.bottom})`)
-                .call(d3.axisBottom(x).ticks(20))
+    var parent = d3.select(".graph2").append("g").attr("id", "svgLine")
 
-                
-                body.append("svg")
-                .attr("width", overwidth)
-                .attr("height", height)
-                .style("display", "block")
-                .call(svg => svg.append("g").call(xAxis))
-                .append("path")
-                    .datum(occurrencesByYear)
-                    .attr("fill", "none")
-                    .attr("stroke", "steelblue")
-                    .attr("d", line);
+    var yAxis = g => g
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y).ticks(15))
 
-                body.node().scrollBy(overwidth, 0);
 
-            }
-                
-        
-            
-        
-        
-        // function drawLines(data, svg) {
-        //     let occurrencesByYear = d3.rollup(data, v => v.length, d => new Date(d.year, 1, 1))
-        //     console.log(occurrencesByYear)
+    parent.append("svg")
+        .attr("id", "svgLine")
+        .attr("width", width)
+        .attr("height", height)
+        .style("position", "absolute")
+        .style("pointer-events", "none")
+        .style("z-index", 1)
+        .call(svg => svg.append("g").call(yAxis))
 
-        //     let margin = 75,
-        //     width = 500 - margin,
-        //     height = 500 - margin;
-            
-  
-        //     let x = d3.scaleTime()
-        //         .domain([new Date(860, 1, 1), new Date(2013, 1, 1)])
-        //         //.domain(d3.extent(occurrencesByYear), d => d[0])
-        //         .range([0, width])
+    const body = parent.append("div")
+        .style("overflow-x", "scroll")
+        .style("direction", "rtl")
+        .style("-webkit-overflow-scrolling", "touch")
 
-        //     let y = d3.scaleLinear()
-        //         .domain([0, d3.max(occurrencesByYear, d => d[1])])
-        //         .range([height - margin, margin])
-            
-        //     let line = d3.line()
-        //         .defined(d => !isNaN(d[1]))
-        //         .x(d => x(d[0]))
-        //         .y(d => y(d[1]))
+    var xAxis = g => g
+        .attr("transform", `translate(0, ${height - margin.bottom})`)
+        .call(d3.axisBottom(x).ticks(20))
 
-        //     console.log(x.domain())
 
-        //     var xAxis = d3.axisBottom(x);
+    body.append("svg")
+        .attr("width", overwidth)
+        .attr("height", height)
+        .style("display", "block")
+        .call(svg => svg.append("g").call(xAxis))
+        .append("path")
+        .datum(occurrencesByYear)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("d", line)
 
-        //     var yAxis = d3.axisLeft(y);
-
-        //     svg.append("g").call(yAxis);
-        //     svg.append("g").call(xAxis);
-
-        //     svg.select("#grafico").remove()
-        //     svg.append("path")
-        //         .attr("id", "grafico")
-        //         .datum(occurrencesByYear)
-        //         .attr("fill", "none")
-        //         .attr("stroke", "steelblue")
-        //         .attr("d", line);
-
-                
-        // }
+    body.node().scrollBy(overwidth, 0)
 
 }
