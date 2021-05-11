@@ -6,7 +6,7 @@ import * as filters from "./filters.js"
 import * as legend from "./legend.js"
 
 export function map(geographicalData, selector) {
-    let elements = d3.selectAll(selector)
+    let elements = d3.select(selector)
 
 
     elements.append("g")
@@ -16,7 +16,6 @@ export function map(geographicalData, selector) {
         .attr("fill", constants.FILL)
         .attr("d", constants.PATH)
 
-    adjust.boundingBox(elements)
 }
 
 export function choropleth(geographicalData, meteoriteLandings, selector, values, upperBound, isCount) {
@@ -66,14 +65,15 @@ export function circles(meteoriteLandings, selector, uniqueCategories) {
         .data(meteoriteLandings)
         .enter()
         .append("circle")
-        .attr("class", "data-circle")
-        .attr("cx", datum => datum.longitude)
-        .attr("cy", datum => datum.latitude)
-        .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
+            .attr("class", "data-circle")
+            .attr("cx", datum => datum.longitude)
+            .attr("cy", datum => datum.latitude)
+            .attr("r", datum => radiusScale(datum.mass <= 16000000 ? datum.mass : 16000000))
         .on("mouseover", function(event, datum) {eventFunctions.showCircleTooltip(event, datum, tooltip, radiusScale)})
         .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
         .style("fill", datum => colorPalette(datum.fall))
         .style("opacity", 0.75)
+        .style("stroke-width", 0.5)
 
     legend.circles(meteoriteLandings, elements, uniqueCategories, colorPalette, radiusScale)
 }

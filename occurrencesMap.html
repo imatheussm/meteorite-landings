@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>meteorite-landings</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/uikit-3.6.20.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+</head>
+<body>
+<!--    <a uk-totop uk-scroll></a>-->
+    <header class="uk-navbar-container uk-margin-medium-bottom">
+        <div class="uk-container-expand">
+            <nav class="uk-container" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo" href="https://imatheussm.github.io/meteorite-landings/index.html">
+                        meteorite-landings
+                    </a>
+                </div>
+                <div class="uk-navbar-right">
+                    <a href="./index.html">
+                        <button class="uk-button uk-button-secondary uk-margin-auto-vertical"
+                            uk-tooltip="Click here to return">
+                        Back to visualizations 
+                        </button>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="uk-container-expand">
+        <div class="uk-container">
+            <ul class="uk-flex-center" uk-tab="animation: uk-animation-fade; connect: #tabContents">
+                <li>
+                    <a id="dashboardTab">
+                        <span uk-icon="image"></span>
+                        <br>
+                        Occurrences Map
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="uk-switcher" id="tabContents">
+            <li class="uk-container">
+                <div class="uk-grid uk-child-width-1-1@m" uk-grid>
+                    <div class="uk-width-1-1 uk-margin-small-top uk-margin-medium-bottom uk-align-center">
+                        <div class="uk-container">
+                            <div class="uk-grid uk-child-width-1-2@s uk-child-width-1-4@m" uk-grid>
+                            </div>
+                        </div>
+                    </div>
+                    <svg class="uk-margin-remove map muted" preserveAspectRatio="xMidYMid meet" id="map"
+                         viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                </div>
+            </li>
+        </ul>
+    </main>
+    <footer>
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/uikit-3.6.20.min.js"></script>
+        <script src="assets/js/uikit-icons-3.6.20.min.js"></script>
+        <script src="assets/js/d3-6.7.0.min.js"></script>
+        <script type="module" src="assets/js/viz/occurrencesMap.js"></script>
+    </footer>
+</body>
+</html>

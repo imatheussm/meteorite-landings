@@ -4,7 +4,6 @@ import * as get from "./get.js"
 export function circles(dataSet, elements, uniqueCategories, colorPalette, radiusScale) {
     let categoryLegendGroup = elements.append("g")
 
-
     categoryLegendGroup.append("text")
         .text("Discovered")
         .style("font-size", "20px")
@@ -28,29 +27,22 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
         .on("mouseover", (event) => d3.select(event.target).style("filter", "brightness(75%)"))
         .on("mouseout", (event) => d3.select(event.target).style("filter", "none"))
         .on("click", function(event, category) {
+
+            d3.selectAll("path").attr("opacity", 0.3)
+
             let circles = elements.selectAll("circle.data-circle"),
                 legendCircles = elements.selectAll("circle.legend-circle")
 
-
-            circles.data(dataSet)
-                .filter(datum => datum.fall === category.name)
-                .style("fill", function(datum) {
-                    if (d3.select(this).style("fill") === "yellow") return colorPalette(datum.fall)
-                    else return "yellow"
-                })
-
-            legendCircles.filter(datum => datum.name === category.name)
-                .style("fill", function(datum) {
-                    if (d3.select(this).style("fill") === "yellow") return colorPalette(datum.name)
-                    else return "yellow"
-                })
+            circles.style("opacity", 1)
+            legendCircles.style("stroke", "None")
 
             circles.data(dataSet)
                 .filter(datum => datum.fall !== category.name)
-                .style("fill", datum => colorPalette(datum.fall))
+                .style("opacity", 0.3)
 
-            legendCircles.filter(datum => datum.name !== category.name)
-                .style("fill", datum => colorPalette(datum.name))
+            legendCircles.filter(datum => datum.name === category.name)
+                .style("stroke-width", "3px")
+
         })
         .select(function() {return this.parentNode})
         .append("text")
