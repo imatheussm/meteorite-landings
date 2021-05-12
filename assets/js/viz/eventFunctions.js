@@ -18,18 +18,18 @@ export function showChoroplethTooltip(event, message, tooltip) {
 }
 
 
-export function showBarTooltip(event, datum, tooltip) {
+export function showBarTooltip(event, datum, tooltip, meanMass) {
     let target = $(event.target),
         position = target.position(),
         tooltipWidth
     
-    tooltip.html(`Class: ${datum[0]}<br>Occurrences: ${datum[1]}`)
+    tooltip.html(`Class: ${datum[0]}<br>Occurrences: ${datum[1]}<br>Mean mass: ${meanMass}`)
         .style("display", "block")
 
     tooltipWidth = tooltip.node().getBoundingClientRect().width
 
-    tooltip.style("top", (position.top - 30) + "px")
-        .style("left", (position.left + (tooltipWidth / 2)) + "px")
+    tooltip.style("top", (position.top - 65) + "px")
+        .style("left", (position.left - (tooltipWidth / 2)) + (target.width() / 2) + "px")
 }
 
 
