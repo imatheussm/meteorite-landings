@@ -110,7 +110,10 @@ export function filteredDataSet(filterClass = true, filterType = true, filterMas
 
     if (filterType === true) {
         filteredMeteoriteLandings = filteredMeteoriteLandings.filter(function(datum) {
-            return datum.mass >= variables.massRange[0] * 60000000 && datum.mass <= variables.massRange[1] * 60000000
+            let lowerBound = variables.massRange[0] * 1779331.6333333333,
+                upperBound = variables.massRange[1] === 1 ? 60000000 : variables.massRange[1] * 1779331.6333333333
+
+            return datum.mass >= lowerBound && datum.mass <= upperBound
         })
     }
 
