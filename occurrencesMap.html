@@ -5,6 +5,7 @@
     <title>meteorite-landings</title>
 
     <link rel="stylesheet" type="text/css" href="assets/css/uikit-3.6.20.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forkongithub.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 <body>
@@ -27,6 +28,9 @@
     </header>
     <main class="uk-container-expand">
         <div class="uk-container">
+            <span class="uk-position-absolute" id="forkongithub">
+                <a href="https://github.com/imatheussm/meteorite-landings/">Fork me on GitHub</a>
+            </span>
             <ul class="uk-flex-center" uk-tab="animation: uk-animation-fade; connect: #tabContents">
                 <li>
                     <a id="dashboardTab">
@@ -47,9 +51,18 @@
                             </div>
                         </div>
                     </div>
-                    <svg class="uk-margin-remove map muted"
-                         preserveAspectRatio="xMidYMid meet" id="mapThree"
-                         viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                    <div>
+                        <h2 class="uk-text-lead">Occurrences Map: place of occurrence, mass and type of meteorites</h2>
+                        <div>
+                            <button class="uk-button uk-button-secondary uk-button-small uk-align-right"
+                                    id="resetButton">
+                                Reset Map
+                            </button>
+                        </div>
+                        <svg class="uk-margin-remove map muted"
+                             preserveAspectRatio="xMidYMid meet" id="mapThree"
+                             viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                    </div>
                 </div>
             </li>
         </ul>

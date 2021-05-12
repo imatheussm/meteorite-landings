@@ -37,11 +37,6 @@ function initializeEvents(events, handler) {
         .on("change", null, null, eventFunctions.updateMassRange)
     $("#rangeTwo").on("input", null, null, eventFunctions.updateRangeTwo)
         .on("change", null, null, eventFunctions.updateMassRange)
-
-    // $("#thumbOne").on("mouseup", null, null, eventFunctions.updateMassRange)
-    // $("#thumbTwo").on("mouseup", null, null, eventFunctions.updateMassRange)
-
-    // eventFunctions.initializeMassRanges()
 }
 
 

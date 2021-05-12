@@ -2,8 +2,8 @@ import * as constants from "./constants.js"
 import * as get from "./get.js"
 
 export function circles(dataSet, elements, uniqueCategories, colorPalette, radiusScale) {
-        
     let categoryLegendGroup = elements.append("g")
+
 
     categoryLegendGroup.append("text")
         .text("Discovered")
@@ -28,10 +28,12 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
         .on("mouseover", (event) => d3.select(event.target).style("filter", "brightness(75%)"))
         .on("mouseout", (event) => d3.select(event.target).style("filter", "none"))
         .on("click", function(event, category) {
-            d3.selectAll("path").attr("opacity", 0.3)
-
             let circles = elements.selectAll("circle.data-circle"),
-                legendCircles = elements.selectAll("circle.legend-circle")
+                legendCircles = elements.selectAll("circle.legend-circle"),
+                paths = elements.selectAll("path")
+
+
+            paths.attr("opacity", 0.3)
 
             circles.style("opacity", 1)
             legendCircles.style("opacity", 1)
@@ -42,7 +44,6 @@ export function circles(dataSet, elements, uniqueCategories, colorPalette, radiu
 
             legendCircles.filter(datum => datum.name !== category.name)
                 .style("opacity", 0.1)
-
         })
         .select(function() {return this.parentNode})
         .append("text")

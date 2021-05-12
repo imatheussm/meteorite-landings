@@ -8,20 +8,15 @@ import * as variables from "./variables.js"
 
 export function map(selector) {
     const GEOGRAPHICAL_DATA = constants.geographicalData
-    let elements = d3.select(selector)
-
-    // Map title
-    elements.append("text")
-        .text("Occurrences Map: place of occurrence, mass and type of meteorites ")
-        .style("font-size", "20px")
-        .style("fill", constants.FILL)
-        .style("stroke", "none")
-        .attr("transform", `translate(${200}, ${-240})`)
+    let elements = d3.select(selector),
+        resetButton = d3.select("#resetButton")
 
 
     if (elements.size() === 0) return
 
-    // Map draw
+    elements.selectAll("*")
+        .remove()
+
     elements.append("g")
         .selectAll("path")
         .data(GEOGRAPHICAL_DATA)
@@ -29,17 +24,10 @@ export function map(selector) {
         .attr("fill", constants.FILL)
         .attr("d", constants.PATH)
 
-    let resetButton = d3.select("#button-container")
-
-    resetButton.append("button")
-        .attr("class", "uk-button uk-button-secondary uk-button-small")
-        .append("text")
-        .text("Reset Map")
-        .on("click", function() {
-            d3.selectAll("path").style("opacity", 1)
-            d3.selectAll("circle.data-circle").style("opacity", 0.75)
-            d3.selectAll("circle.legend-circle").style("opacity", 1)
-    
+    resetButton.on("click", function() {
+        d3.selectAll("path").style("opacity", 1)
+        d3.selectAll("circle.data-circle").style("opacity", 0.75)
+        d3.selectAll("circle.legend-circle").style("opacity", 1)
     })
 
     adjust.boundingBox(elements)
