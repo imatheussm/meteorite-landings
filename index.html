@@ -5,6 +5,7 @@
     <title>meteorite-landings</title>
 
     <link rel="stylesheet" type="text/css" href="assets/css/uikit-3.6.20.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slider.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 <body>
@@ -18,15 +19,14 @@
                     </a>
                 </div>
                 <div class="uk-navbar-right">
-                    <button class="uk-button uk-button-secondary uk-margin-auto-vertical"
-                            uk-tooltip="Gabriela Maximino & Igor Moreira.">
-                        Authors
-                    </button>
+                    <a href="./occurrencesMap.html" class="uk-button uk-button-secondary uk-margin-auto-vertical">
+                        Occurrences Map
+                    </a>
                 </div>
             </nav>
         </div>
     </header>
-    <main class="uk-container-expand">
+    <main class="uk-container-expand uk-margin-large-bottom">
         <div class="uk-container">
             <ul class="uk-flex-center" uk-tab="animation: uk-animation-fade; connect: #tabContents">
                 <li>
@@ -46,39 +46,90 @@
             </ul>
         </div>
         <ul class="uk-switcher" id="tabContents">
-            <li class="uk-container-expand">
+            <li class="uk-container">
                 <div class="uk-grid uk-child-width-1-2@m" uk-grid>
                     <div class="uk-width-1-1 uk-margin-small-top uk-margin-medium-bottom uk-align-center">
                         <div class="uk-container">
                             <div class="uk-grid uk-child-width-1-2@s uk-child-width-1-4@m" uk-grid>
+<!--                                <div class="uk-flex uk-align-center uk-margin-auto-vertical">-->
+<!--                                    <small class="uk-margin-auto-vertical uk-margin-auto-left uk-text-right">-->
+<!--                                        Occurrence count-->
+<!--                                    </small>-->
+<!--                                    <label class="uk-switch uk-margin-small-left uk-margin-auto-vertical">-->
+<!--                                        <input type="checkbox" id="mapToggle"-->
+<!--                                               uk-toggle="target: .map-toggle; cls: uk-hidden;">-->
+<!--                                        <div class="uk-switch-slider uk-switch-small uk-display-block"></div>-->
+<!--                                    </label>-->
+<!--                                    <small class="uk-margin-auto-vertical uk-margin-small-left uk-margin-auto-right-->
+<!--                                                  uk-text-left">-->
+<!--                                        Average mass-->
+<!--                                    </small>-->
+<!--                                </div>-->
                                 <div class="uk-flex uk-align-center uk-margin-auto-vertical">
-                                    <small class="uk-margin-auto-vertical uk-margin-auto-left">
-                                        Count
-                                    </small>
-                                    <label class="uk-switch uk-margin-small-left uk-margin-auto-vertical">
-                                        <input type="checkbox" id="mapToggle"
-                                               uk-toggle="target: .map-toggle; cls: uk-hidden;">
-                                        <div class="uk-switch-slider uk-switch-small uk-display-block"></div>
-                                    </label>
-                                    <small class="uk-margin-auto-vertical uk-margin-small-left uk-margin-auto-right">
-                                        Mean
-                                    </small>
+                                    <small class="uk-margin-auto-vertical uk-margin-auto-left">Mass</small>
+<!--                                    <input type="range" value="2" min="0" max="10" step="0.1"-->
+<!--                                           class="uk-range uk-margin-small-left uk-margin-auto-vertical-->
+<!--                                           uk-margin-auto-right">-->
+                                    <div slider class="uk-margin-auto-vertical uk-margin-small-left"
+                                         id="rangeContainer">
+                                        <div>
+                                            <div inverse-left style="width:0;"></div>
+                                            <div inverse-right style="width:0;"></div>
+                                            <div range style="left:0;right:0;"></div>
+                                            <span thumb id="thumbOne" style="left:0;"></span>
+                                            <span thumb id="thumbTwo" style="left:100%;"></span>
+                                            <div sign style="left:0;">
+                                                <span class="slider-value">0</span>
+                                            </div>
+                                            <div sign style="left:100%;">
+                                                <span class="slider-value">100</span>
+                                            </div>
+                                        </div>
+                                        <input type="range" id="rangeOne" tabindex="0" value="0" max="100" min="0"
+                                               step="1"/>
+                                        <input type="range" id="rangeTwo" tabindex="0" value="100" max="100" min="0"
+                                               step="1"/>
+                                    </div>
                                 </div>
                                 <div class="uk-flex uk-align-center uk-margin-auto-vertical">
-                                    <small class="uk-margin-auto-vertical uk-margin-auto-left">Mean</small>
-                                    <input type="range" value="2" min="0" max="10" step="0.1"
-                                           class="uk-range uk-margin-small-left uk-margin-auto-vertical
-                                           uk-margin-auto-right">
+                                    <small class="uk-margin-auto-vertical uk-margin-small-right uk-margin-auto-left">
+                                        Type
+                                    </small>
+                                    <div class="uk-margin-auto-vertical uk-margin uk-grid-small uk-child-width-auto
+                                    uk-grid uk-margin-auto-right">
+                                        <label class="uk-text-small uk-margin-auto-vertical">
+                                            <input class="uk-checkbox" id="fellCheckbox" type="checkbox" checked> Fell
+                                        </label>
+                                        <label class="uk-text-small uk-margin-auto-vertical">
+                                            <input class="uk-checkbox" id="foundCheckbox" checked
+                                                   type="checkbox"> Found
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <svg class="uk-margin-remove map map-muted map-toggle" viewBox="0 0 961 730"
-                         preserveAspectRatio="xMidYMid meet" id="mapOne"></svg>
-                    <svg class="uk-margin-remove map map-red map-toggle uk-hidden" viewBox="0 0 961 730"
-                         preserveAspectRatio="xMidYMid meet" id="mapTwo"></svg>
-                    <svg class="uk-margin-remove map map-muted" viewBox="0 0 961 730"
-                         preserveAspectRatio="xMidYMid meet" id="mapThree"></svg>
+                    <div>
+                        <h2 class="uk-text-lead">Choropleth Map: Occurrences by Country</h2>
+                        <svg class="uk-margin-remove-top map muted" preserveAspectRatio="xMidYMid meet"
+                            id="mapOne" viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                    </div>
+                    <div>
+                        <h2 class="uk-text-lead">Choropleth Map: Average mass by Country</h2>
+                        <svg class="map muted" preserveAspectRatio="xMidYMid meet"
+                            id="mapTwo" viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                    </div>
+                    <div>
+                        <h2 class="uk-text-lead">Bar Chart: Occurrences by Class</h2>
+                        <div id="barChartDiv">
+                            <svg class="chart chart-muted" preserveAspectRatio="xMidYMid meet" id="barChart"
+                                viewBox="-0.5 -192.1917724609375 961 922.6917724609375"></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="uk-text-lead">Line Chart: Occurrences by Year</h2>
+                        <div id="lineChart"></div>
+                    </div>
                 </div>
             </li>
             <li class="uk-container">
@@ -86,7 +137,9 @@
             </li>
         </ul>
     </main>
-    <footer>
+    <footer class="uk-text-center uk-margin-medium-bottom">
+        Built by <a href="https://github.com/gabrielamaximino" target="_blank">Gabriela S. Maximino</a> and
+        <a href="https://github.com/imatheussm" target="_blank">Igor Matheus S. Moreira</a>.
         <script src="assets/js/jquery-3.6.0.min.js"></script>
         <script src="assets/js/uikit-3.6.20.min.js"></script>
         <script src="assets/js/uikit-icons-3.6.20.min.js"></script>
