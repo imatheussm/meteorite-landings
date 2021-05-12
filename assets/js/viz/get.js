@@ -119,3 +119,15 @@ export function filteredDataSet(filterClass = true, filterType = true, filterMas
 
     return filteredMeteoriteLandings
 }
+
+
+export function XGridLines(xAxis, number) {
+    return d3.axisBottom(xAxis)
+        .ticks(number)
+}
+
+
+export function YGridLines(yAxis, number) {
+    return d3.axisLeft(yAxis)
+        .ticks(number)
+}

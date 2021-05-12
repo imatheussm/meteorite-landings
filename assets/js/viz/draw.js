@@ -139,6 +139,24 @@ export function barChart(selector) {
     elements.selectAll("*")
         .remove()
 
+    elements.append("g")
+        .attr("class","grid")
+        // .attr("transform","translate(0, 1000)")
+        .style("stroke-dasharray",("3, 3"))
+        .call(get.XGridLines(xAxis, 8)
+            .tickSize(23100)
+            .tickFormat("")
+            .ticks(8)
+        )
+
+    elements.append("g")
+        .attr("class","grid")
+        .style("stroke-dasharray",("3, 3"))
+        .call(get.YGridLines(yAxis, 5)
+            .tickSize(-800)
+            .tickFormat("")
+        )
+
     elements.selectAll()
         .data(classCounts)
         .join("rect")
@@ -196,15 +214,6 @@ export function lineChart(selector) {
         newYearCounts = [],
         childDiv, svg
 
-    function make_x_gridlines() {
-        return d3.axisBottom(xAxis)
-            .ticks(8)
-    }
-    function make_y_gridlines() {
-        return d3.axisLeft(yAxis)
-                .ticks(5)
-          }
-
 
     if (elements.size() === 0) return
 
@@ -226,15 +235,16 @@ export function lineChart(selector) {
     svg.append("path")
         .datum(newYearCounts)
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
+        // .attr("stroke", "steelblue")
+        .attr("stroke", constants.FILL)
         .attr("stroke-width", 6)
         .attr("d", line)
 
     svg.append("g")
         .attr("class","grid")
         .attr("transform","translate(0, 1000)")
-        .style("stroke-dasharray",("3,3"))
-        .call(make_x_gridlines()
+        .style("stroke-dasharray",("3, 3"))
+        .call(get.XGridLines(xAxis, 8)
           .tickSize(-1000)
           .tickFormat("")
           .ticks(100)
@@ -242,8 +252,8 @@ export function lineChart(selector) {
 
     svg.append("g")
         .attr("class","grid")
-        .style("stroke-dasharray",("3,3"))
-        .call(make_y_gridlines()
+        .style("stroke-dasharray",("3, 3"))
+        .call(get.YGridLines(yAxis, 5)
           .tickSize(-10000)
           .tickFormat("")
         )
