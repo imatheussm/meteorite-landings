@@ -4,8 +4,8 @@ A basic JavaScript dashboard that allows a visual, interactive exploratory scrut
 
 This application was developed by the following authors:
 
- - Gabriela S. Maximino (@gabrielamaximino); and
- - Igor Matheus S. Moreira (@imatheussm).
+ - Gabriela S. Maximino ([@gabrielamaximino](https://github.com/gabrielamaximino/)); and
+ - Igor Matheus S. Moreira ([@imatheussm](https://github.com/imatheussm/)).
 
 ## Requirements
 
