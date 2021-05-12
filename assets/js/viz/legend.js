@@ -219,7 +219,7 @@ export function barChart(elements, xAxis, yAxis) {
 export function lineChart(elements, xAxis, yAxis) {
     elements.append("g")
         .attr("transform", `translate(0, ${1000})`)
-        .call(d3.axisBottom(xAxis))
+        .call(d3.axisBottom(xAxis).ticks(100))
 
     elements.append("g")
         .call(d3.axisLeft(yAxis))

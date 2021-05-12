@@ -193,6 +193,15 @@ export function lineChart(selector) {
         newYearCounts = [],
         childDiv, svg
 
+    function make_x_gridlines() {
+        return d3.axisBottom(xAxis)
+            .ticks(8)
+    }
+    function make_y_gridlines() {
+        return d3.axisLeft(yAxis)
+                .ticks(5)
+          }
+
 
     if (elements.size() === 0) return
 
@@ -217,6 +226,24 @@ export function lineChart(selector) {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 6)
         .attr("d", line)
+
+    svg.append("g")
+        .attr("class","grid")
+        .attr("transform","translate(0, 1000)")
+        .style("stroke-dasharray",("3,3"))
+        .call(make_x_gridlines()
+          .tickSize(-1000)
+          .tickFormat("")
+          .ticks(100)
+        )
+
+    svg.append("g")
+        .attr("class","grid")
+        .style("stroke-dasharray",("3,3"))
+        .call(make_y_gridlines()
+          .tickSize(-10000)
+          .tickFormat("")
+        )
 
 
     legend.lineChart(svg, xAxis, yAxis)
