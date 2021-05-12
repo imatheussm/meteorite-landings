@@ -47,7 +47,7 @@
         </div>
         <ul class="uk-switcher" id="tabContents">
             <li class="uk-container">
-                <div class="uk-grid uk-child-width-1-2@m" uk-grid>
+                <div class="uk-grid uk-child-width-1-2@m uk-margin-small-top" uk-grid>
                     <div class="uk-width-1-1 uk-margin-small-top uk-margin-medium-bottom uk-align-center">
                         <div class="uk-container">
                             <div class="uk-grid uk-child-width-1-2@s uk-child-width-1-4@m" uk-grid>
@@ -133,7 +133,133 @@
                 </div>
             </li>
             <li class="uk-container">
-                Some information here.
+                <div class="uk-margin-small-top uk-margin-large-left uk-margin-large-right uk-padding-large-left
+                            uk-padding-large-right">
+                    <h3 class="uk-margin-small-bottom">
+                        In the time intervals with significant number of meteorite incidents, which regions are most
+                        affected and what is the mean meteorite mass in them?
+                    </h3>
+                    <p>
+                        The line plot allows the scrutiny of occurrences as the years passed. During its implementation,
+                        it was noticed that 288 instances out of the 45,716 contained in the data set lacked the year
+                        of occurrence. By analysing it, one can see that the number of meteorites significantly
+                        increased from 1970 onwards. This does not mean that there were very few meteorites previously,
+                        but more likely that such events are observed, registered and studied now more than ever. There
+                        are incidents dating as far back as 860 CE, but such old instances are few and far between.
+                    </p>
+                    <p>
+                        In conjunction with this line plot, the count and average mass choropleth maps allow the
+                        inspection of which regions registered the most meteorite landings, and which saw the biggest
+                        average mass. These maps were obtained by performing a reverse geocoding of the coordinates
+                        originally present in this data set using
+                        <a class="uk-link" href="https://docs.mapbox.com/api/overview/">MapBox's API</a>. It is worth
+                        mentioning that this API failed to return the country of 14,962 instances, which is around a
+                        third of the data set instances. To visualize all meteorite landings, another map plot with
+                        circle marks is available by clicking on
+                        <a class="uk-link" href="./occurrencesMap.html">Occurrences Map</a>.
+                    </p>
+                    <p>
+                        In terms of number of occurrences, Antarctica tops the ranking with 20,676 instances. However,
+                        as it can be seen on the average mass choropleth, Greenland and Namibia seem to have the biggest
+                        average mass by far. Interestingly enough, Greenland and Namibia only have 4 and 17 occurrences
+                        respectively, which is significantly less than Antarctica. Indeed, Greenland and Namibia have
+                        extreme outliers in terms of mass. They can be filtered out by adjusting the mass range selector
+                        to cover from 0 up to the 99th percentile in terms of mass. In doing so, other countries take
+                        the lead, such as Colombia, Belarus, and Turkmenistan.
+                    </p>
+                    <p class="uk-margin-medium-bottom">
+                        The average mass of the meteorites that landed in these countries and regions can be found by
+                        passing the mouse over them on the choropleth maps. The ability to select time ranges on the
+                        line chart would be ideal; however, due to the constraints related to this activity,
+                        implementing this was not feasible in a timely manner, and could be a pertinent future
+                        improvement to this dashboard.
+                    </p>
+                    <h3 class="uk-margin-small-bottom">
+                        How big is the mean mass of the predominant meteorite class and in which region they tend to
+                        occur the most?
+                    </h3>
+                    <p>
+                        This question can be answered by looking at the bar plot at the bottom right corner of the
+                        dashboard. It shows how many meteorites of each class are described in this data set. By
+                        clicking on one or many bars, the visualizations are dynamically filtered to consider only the
+                        selected classes.
+                    </p>
+                    <p>
+                        Using this bar plot, one can see that the ten most frequent classes are:
+                    </p>
+                    <ol class="uk-column-1-2">
+                        <li>L6;</li>
+                        <li>H5;</li>
+                        <li>L5;</li>
+                        <li>H6;</li>
+                        <li>H4;</li>
+                        <li>LL5;</li>
+                        <li>LL6;</li>
+                        <li>L4;</li>
+                        <li>H4/5; and</li>
+                        <li>CM2.</li>
+                    </ol>
+                    <p class="uk-margin-medium-bottom">
+                        Similarly to what was seen in the choropleth maps, analysing the mean mass of the meteorite
+                        landings of any given class is as simple as passing the mouse through the respective bar.
+                    </p>
+                    <h3 class="uk-margin-small-bottom">
+                        Are there any geographic or temporal differences between the meteorite classes that fell on
+                        Earth?
+                    </h3>
+                    <p>
+                        With the current visualization techniques and lower/upper bounds of the scales, it seems that
+                        there are no significant changes in geographic terms. Antarctica seems to have plenty of
+                        occurrences of the most frequent meteorite classes. Moreover, there are no significant
+                        differences in terms of temporal distribution: all the most frequent classes saw a rise in the
+                        number of registered incidents from 1970 onwards, with the only difference being in the number
+                        of incidents, as seen in the bar plot.
+                    </p>
+                    <p class="uk-margin-medium-bottom">
+                        Looking in hindsight, it seems that the global filtering of outliers performed outside this
+                        JavaScript application did not contemplate the filtered maps. A better alternative would be to
+                        automatically perform outlier filtering using a Z-Score-based approach in the JavaScript
+                        application itself and automatically. This serves as meaningful feedback for any prospective
+                        endeavors involving visualization with <a href="https://d3js.org/">d3.js</a>.
+                    </p>
+                    <h3 class="uk-margin-small-bottom">
+                        Which is the predominant class of meteorites of type Fell, when did they occur the most and
+                        where they can be most frequently observed?
+                    </h3>
+                    <p>
+                       This question is interesting because the Fell class (i.e., those incidents that were observed as
+                       they happened instead of just finding the meteorite afterwards) are a small class, amounting to
+                       just 1,107 instances. The Found class, conversely, contains 44,609 entries.
+                    </p>
+                    <p>
+                        In the produced dashboard, the types of meteorite incidents can be filtered by using the
+                        checkboxes. By changing their state, all visualizations are dynamically updated accordingly. By
+                        selecting only Fell incidents, one can see how the distributions are significantly different.
+                        To begin with, no more than 20 Fell observations were registered in the same year. Moreover, no
+                        Fell incidents were registered in Antarctica, which means that all meteorite incidents there
+                        were registered post-impact. Now, the leading countries in terms of this type of landings are
+                        the United States, India, China, and Russia.
+                    </p>
+                    <p class="uk-margin-medium-bottom">
+                        Lastly, the line plot allows the inspection of when this type of incident happened the most, and
+                        the bar plot and mass slider allow additional filtering to see how each meteorite class is
+                        distributed in terms of mass, geographical location, and time.
+                    </p>
+                    <h3 class="uk-margin-small-bottom">
+                        How the Fell and Found meteorites differ in geographic and temporal terms?
+                    </h3>
+                    <p>
+                        The previous question helps to answer this one. As previously mentioned, this data set is very
+                        unbalanced in terms of Fell/Found occurrences. In addition to this fact, the geographical
+                        distribution of these types of meteorite landings significantly differ.
+                    </p>
+                    <p class="uk-margin-medium-bottom">
+                        Overall, only the distribution of Fell and Found incidents in terms of time can be considered
+                        similar. The numbers and variations are naturally higher on the predominant class, but all of
+                        began to be more frequently registered around the same time mentioned before (from year 1970
+                        onwards).
+                    </p>
+                </div>
             </li>
         </ul>
     </main>
