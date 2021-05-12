@@ -121,6 +121,7 @@ export function circles(selector) {
 export function barChart(selector) {
     const METEORITE_LANDINGS = get.filteredDataSet(false)
     let classCounts = get.counts(METEORITE_LANDINGS, "class"),
+        meanMasses = get.meanValues(METEORITE_LANDINGS, "class", "mass"),
         // yearCounts = get.counts(METEORITE_LANDINGS, "year", true),
         elements = d3.selectAll(selector),
         xAxis = d3.scaleLinear()
@@ -149,7 +150,9 @@ export function barChart(selector) {
         .attr("x", datum => xAxis(datum[1]))
         .style("cursor", "pointer")
         // .attr("transform", "translate(1000, 0)")
-        .on("mouseover", function(event, datum) {eventFunctions.showBarTooltip(event, datum, tooltip)})
+        .on("mouseover", function(event, datum) {
+            eventFunctions.showBarTooltip(event, datum, tooltip, meanMasses.get(datum[0]))
+        })
         .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
         .on("click", function(event, bar) {
             let className = bar[0]
