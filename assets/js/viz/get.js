@@ -93,16 +93,26 @@ export function ramp(color, n = 256) {
 }
 
 
-export function filteredDataSet(filterClass = true) {
+export function filteredDataSet(filterClass = true, filterType = true, filterMass = true) {
     let filteredMeteoriteLandings = constants.meteoriteLandings
 
-    if (filterClass === true)
+    if (filterClass === true) {
         filteredMeteoriteLandings = filteredMeteoriteLandings.filter(function(datum) {
-            const selectedClasses = variables.selectedClasses
-
-
-            return selectedClasses.length > 0 ? selectedClasses.includes(datum.class) : true
+            return variables.selectedClasses.length > 0 ? variables.selectedClasses.includes(datum.class) : true
         })
+    }
+
+    if (filterType === true) {
+        filteredMeteoriteLandings = filteredMeteoriteLandings.filter(function(datum) {
+            return variables.selectedTypes.includes(datum.fall)
+        })
+    }
+
+    if (filterType === true) {
+        filteredMeteoriteLandings = filteredMeteoriteLandings.filter(function(datum) {
+            return datum.mass >= variables.massRange[0] * 60000000 && datum.mass <= variables.massRange[1] * 60000000
+        })
+    }
 
     return filteredMeteoriteLandings
 }

@@ -1,5 +1,6 @@
 import * as constants from "./constants.js"
 import * as draw from "./draw.js"
+import * as eventFunctions from "./eventFunctions.js"
 import * as parse from "./parse.js"
 
 
@@ -25,14 +26,22 @@ function preProcessData(data) {
 function initializeConstants(geographicalData, meteoriteLandings) {
     constants.setGeographicalData(geographicalData)
     constants.setMeteoriteLandings(meteoriteLandings)
+}
 
-    // constants.setCountryOccurrences(get.counts(meteoriteLandings, "country"))
-    // constants.setClassOccurrences(get.counts(meteoriteLandings, "class"))
-    // constants.setYearOccurrences(get.counts(meteoriteLandings, "year", true))
-    // constants.setMeanMasses(
-    //     get.meanValues(meteoriteLandings, constants.countryOccurrences, "country", "mass")
-    // )
-    // constants.setUniqueCategories(get.uniqueValues(meteoriteLandings, "fall"))
+
+function initializeEvents(events, handler) {
+    $("#fellCheckbox").on("change", null, null, eventFunctions.updateMeteoriteType)
+    $("#foundCheckbox").on("change", null, null, eventFunctions.updateMeteoriteType)
+
+    $("#rangeOne").on("input", null, null, eventFunctions.updateRangeOne)
+        .on("change", null, null, eventFunctions.updateMassRange)
+    $("#rangeTwo").on("input", null, null, eventFunctions.updateRangeTwo)
+        .on("change", null, null, eventFunctions.updateMassRange)
+
+    // $("#thumbOne").on("mouseup", null, null, eventFunctions.updateMassRange)
+    // $("#thumbTwo").on("mouseup", null, null, eventFunctions.updateMassRange)
+
+    // eventFunctions.initializeMassRanges()
 }
 
 
@@ -57,6 +66,7 @@ $(function() {
 
 
         initializeConstants(GEOGRAPHICAL_DATA, METEORITE_LANDINGS)
+        initializeEvents()
         initializeVisualizations()
     })
 })

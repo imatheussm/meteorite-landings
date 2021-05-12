@@ -5,6 +5,7 @@
     <title>meteorite-landings</title>
 
     <link rel="stylesheet" type="text/css" href="assets/css/uikit-3.6.20.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slider.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 <body>
@@ -69,9 +70,44 @@
 <!--                                </div>-->
                                 <div class="uk-flex uk-align-center uk-margin-auto-vertical">
                                     <small class="uk-margin-auto-vertical uk-margin-auto-left">Mass</small>
-                                    <input type="range" value="2" min="0" max="10" step="0.1"
-                                           class="uk-range uk-margin-small-left uk-margin-auto-vertical
-                                           uk-margin-auto-right">
+<!--                                    <input type="range" value="2" min="0" max="10" step="0.1"-->
+<!--                                           class="uk-range uk-margin-small-left uk-margin-auto-vertical-->
+<!--                                           uk-margin-auto-right">-->
+                                    <div slider class="uk-margin-auto-vertical uk-margin-small-left"
+                                         id="rangeContainer">
+                                        <div>
+                                            <div inverse-left style="width:0;"></div>
+                                            <div inverse-right style="width:0;"></div>
+                                            <div range style="left:0;right:0;"></div>
+                                            <span thumb id="thumbOne" style="left:0;"></span>
+                                            <span thumb id="thumbTwo" style="left:100%;"></span>
+                                            <div sign style="left:0;">
+                                                <span class="slider-value">0</span>
+                                            </div>
+                                            <div sign style="left:100%;">
+                                                <span class="slider-value">100</span>
+                                            </div>
+                                        </div>
+                                        <input type="range" id="rangeOne" tabindex="0" value="0" max="100" min="0"
+                                               step="1"/>
+                                        <input type="range" id="rangeTwo" tabindex="0" value="100" max="100" min="0"
+                                               step="1"/>
+                                    </div>
+                                </div>
+                                <div class="uk-flex uk-align-center uk-margin-auto-vertical">
+                                    <small class="uk-margin-auto-vertical uk-margin-small-right uk-margin-auto-left">
+                                        Type
+                                    </small>
+                                    <div class="uk-margin-auto-vertical uk-margin uk-grid-small uk-child-width-auto
+                                    uk-grid uk-margin-auto-right">
+                                        <label class="uk-text-small uk-margin-auto-vertical">
+                                            <input class="uk-checkbox" id="fellCheckbox" type="checkbox" checked> Fell
+                                        </label>
+                                        <label class="uk-text-small uk-margin-auto-vertical">
+                                            <input class="uk-checkbox" id="foundCheckbox" checked
+                                                   type="checkbox"> Found
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

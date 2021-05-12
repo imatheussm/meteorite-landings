@@ -19,7 +19,3 @@ export function setMeteoriteLandings(value) {
     if (meteoriteLandings === undefined) meteoriteLandings = value
     else throw Error()
 }
-
-export function filterDataSet() {
-
-}

@@ -191,10 +191,12 @@ export function choropleth(elements, title, palette) {
         .style("font-size", "15px")
         .style("cursor", "default")
 
-    lastTicker = ticksGroup.select(".tick:last-of-type text")
-    lastTickerText = lastTicker.text()
+    try {
+        lastTicker = ticksGroup.select(".tick:last-of-type text")
+        lastTickerText = lastTicker.text()
 
-    if (lastTickerText.charAt(lastTickerText.length - 1) !== "+") lastTicker.text(`${lastTickerText}+`)
+        if (lastTickerText.charAt(lastTickerText.length - 1) !== "+") lastTicker.text(`${lastTickerText}+`)
+    } catch {}
 }
 
 export function barChart(elements, xAxis, yAxis) {

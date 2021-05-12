@@ -147,6 +147,7 @@ export function barChart(selector) {
         .attr("y", datum => yAxis(datum[0]))
         .attr("height", yAxis.bandwidth())
         .attr("x", datum => xAxis(datum[1]))
+        .style("cursor", "pointer")
         // .attr("transform", "translate(1000, 0)")
         .on("mouseover", function(event, datum) {eventFunctions.showBarTooltip(event, datum, tooltip)})
         .on("mouseout", function() {eventFunctions.hideTooltip(tooltip)})
